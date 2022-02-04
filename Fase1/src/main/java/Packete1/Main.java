@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
 public class Main {
@@ -43,24 +44,36 @@ public class Main {
             }
         }
 
-//        System.out.println(contenido);
         Gson gson = new Gson();
-//        Map<?,?> userMap = gson.fromJson(contenido, Map.class);
-        HashMap mapa = gson.fromJson(contenido, HashMap.class);
-        String sss = mapa.get("Cliente1").toString();
-        HashMap nuevo = new HashMap<>();
-//        nuevo = (HashMap) sss;
-        Gson gg = new Gson();
-        String json = gg.toJson(mapa.get("Cliente1"));
-        System.out.println(json);
-        Gson tt = new Gson();
-        HashMap mm = gson.fromJson(json, HashMap.class);
-        System.out.println(mm.get("img_bw"));
+        //Convirtiendo el contenido a diccionario, esto devuelve
+        //Cliente1 que es otro json
+        HashMap diccionarioClienteN = gson.fromJson(contenido, HashMap.class);
+        Set<String> keys = diccionarioClienteN.keySet();
+        for(String key:keys){
+            //Covertimos el diccionario a string para poder generar
+            //otro diccionario pasando el string
+            String json = gson.toJson(diccionarioClienteN.get(key));
+            //Creamos el diccionario con los atributos de los clientes
+            HashMap diccionarioValores = gson.fromJson(json, HashMap.class);
+//            System.out.println(diccionarioValores);
+            Set<String> keysA = diccionarioValores.keySet();
+            for(String keyA:keysA){
+                System.out.print(keyA+" ");
+                String valor = diccionarioValores.get(keyA).toString();
+                System.out.print(valor+" ");
+            }
+            System.out.println("");
+        }
+//        //Convertimos el objeto a string para poder obtener sus valores
+//        String sss = diccionarioClienteN.get("Cliente1").toString();
+//        //Convirtiendo otra vez el string a diccionario
+//        String json = gson.toJson(diccionarioClienteN.get("Cliente1"));
+////        System.out.println(json);
+//        HashMap diccionarioValores = gson.fromJson(json, HashMap.class);
+////        System.out.println(diccionarioValores.get("img_bw"));
 
-//        System.out.println(mapa.get("Cliente1").getClass().getSimpleName());
 
 
-//        System.out.println(userMap.get("Cliente1").getClass().getSimpleName());
 
 
 
