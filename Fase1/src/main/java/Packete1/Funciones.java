@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Funciones {
@@ -16,7 +17,11 @@ public class Funciones {
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
             // hacer una lectura comoda (disponer del metodo readLine()).
-            archivo = new File ("prueba.json");
+            Scanner Entradaruta = new Scanner(System.in);
+            System.out.print("Ingresar ruta del archivo:  ");
+            String ruta = Entradaruta.nextLine();
+
+            archivo = new File (ruta);
             fr = new FileReader (archivo);
             br = new BufferedReader(fr);
 
@@ -45,40 +50,47 @@ public class Funciones {
         return contenido;
     }
     public String convertirAJson(String contenido){
-        ListaSimple colaRecepcion = new ListaSimple();
-        Gson gson = new Gson();
-        //Convirtiendo el contenido a diccionario, esto devuelve
-        //Cliente1 que es otro json
-        HashMap diccionarioClienteN = gson.fromJson(contenido, HashMap.class);
-        Set<String> keys = diccionarioClienteN.keySet();
-        for(String key:keys){
-            //Covertimos el diccionario a string para poder generar
-            //otro diccionario pasando el string
-            String json = gson.toJson(diccionarioClienteN.get(key));
-            //Creamos el diccionario con los atributos de los clientes
-            HashMap diccionarioValores = gson.fromJson(json, HashMap.class);
+
+        try{
+            ListaSimple colaRecepcion = new ListaSimple();
+            Gson gson = new Gson();
+            //Convirtiendo el contenido a diccionario, esto devuelve
+            //Cliente1 que es otro json
+            HashMap diccionarioClienteN = gson.fromJson(contenido, HashMap.class);
+            Set<String> keys = diccionarioClienteN.keySet();
+            for(String key:keys){
+                //Covertimos el diccionario a string para poder generar
+                //otro diccionario pasando el string
+                String json = gson.toJson(diccionarioClienteN.get(key));
+                //Creamos el diccionario con los atributos de los clientes
+                HashMap diccionarioValores = gson.fromJson(json, HashMap.class);
 //            System.out.println(diccionarioValores);
 //            Set<String> keysA = diccionarioValores.keySet();
-            int id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
-            int img_bw = Integer.parseInt(diccionarioValores.get("img_bw").toString());
-            int img_color = Integer.parseInt(diccionarioValores.get("img_color").toString());
-            String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
+                int id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
+                int img_bw = Integer.parseInt(diccionarioValores.get("img_bw").toString());
+                int img_color = Integer.parseInt(diccionarioValores.get("img_color").toString());
+                String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
 
-            Cliente nuevoCliente = new Cliente(id_cliente, nombre_cliente, img_color, img_bw);
-            colaRecepcion.insertarInicio(nuevoCliente);
+                Cliente nuevoCliente = new Cliente(id_cliente, nombre_cliente, img_color, img_bw);
+                colaRecepcion.insertarInicio(nuevoCliente);
 //            System.out.println(nuevoCliente.mostrarDatos());
-            //Usar la siguiente sintaxis si no se saben las claves
+                //Usar la siguiente sintaxis si no se saben las claves
 //            for(String keyA:keysA){
 //                System.out.print(keyA+" ");
 //                String valor = diccionarioValores.get(keyA).toString();
 //                System.out.print(valor+" ");
 //            }
 //            System.out.println();
+            }
+
+            System.out.println("Clientes Cargados exitosamente");
+            verColaRecepcion(colaRecepcion);
+            menu();
+        }catch (Exception e){
+            System.out.println("Error al cargar clientes");
+//            e.printStackTrace();
+
         }
-//        colaRecepcion.recorrerColaRecepcion();
-
-        crearGraphviz(colaRecepcion);
-
         return "";
     }
 
@@ -133,6 +145,44 @@ public class Funciones {
             System.out.println("errror");
             e.printStackTrace();
         }
+
+    }
+    public void menu(){
+        Scanner entradaEscaner = new Scanner(System.in);
+        System.out.println("*****MENU*****");
+        System.out.println("1. Parametros Iniciales");
+        System.out.println("2. Ejecutar Paso");
+        System.out.println("3. Estado en memoria de las estructuras");
+        System.out.println("4. Reportes");
+        System.out.println("5. Datos del estudiante");
+        System.out.println("6. Salir");
+        System.out.print("Seleccionar Opcion:  ");
+        String opcion = entradaEscaner.nextLine();
+        switch (opcion){
+            case "1":
+                Scanner entradaParametros = new Scanner(System.in);
+                System.out.println("1. Carga Masiva de clientes");
+                System.out.println("2. Carga de ventanillas");
+                System.out.println("Seleccionar Opcion:  ");
+                String opcionParametros = entradaParametros.nextLine();
+                if (opcion.equals("1")){
+                    leerArchivo();
+            }else if (opcion.equals("2")){
+
+                }
+                break;
+
+            case "6":
+                break;
+            default:
+                System.out.println("Opcion no disponible");
+                break;
+
+        }
+        System.out.println();
+    }
+    public void verColaRecepcion(ListaSimple colaRecepcion){
+        colaRecepcion.recorrerColaRecepcion();
 
     }
     public void listas(){
