@@ -1,18 +1,21 @@
 package Packete1;
 
 public class Ventanilla {
-    private int numeroVentanilla;
+    private String numeroVentanilla;
     private ListaSimple listaImagenes;
+    private boolean estaDisponible;
 
-    public Ventanilla(int numeroVentanilla) {
+    public Ventanilla(String numeroVentanilla) {
         this.numeroVentanilla = numeroVentanilla;
         this.listaImagenes = null;
+        this.estaDisponible = true;
     }
-    public int getNumeroVentanilla() {
+
+    public String getNumeroVentanilla() {
         return numeroVentanilla;
     }
 
-    public void setNumeroVentanilla(int numeroVentanilla) {
+    public void setNumeroVentanilla(String numeroVentanilla) {
         this.numeroVentanilla = numeroVentanilla;
     }
 
@@ -24,5 +27,11 @@ public class Ventanilla {
         this.listaImagenes = listaImagenes;
     }
 
+    public boolean isEstaDisponible() {
+        return estaDisponible;
+    }
 
+    public void setEstaDisponible(boolean estaDisponible) {
+        this.estaDisponible = estaDisponible;
+    }
 }

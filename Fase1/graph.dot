@@ -1,7 +1,7 @@
 digraph ejemplo {
-0 [label="Andres Lopez"]
-1 [label="Juan Perez"]
-2 [label="Luiz Higueros"]
+0 [label="Andres Lopez\nIMG C 3\nIMG BN 5"]
+1 [label="Juan Perez\nIMG C 3\nIMG BN 0"]
+2 [label="Luiz Higueros\nIMG C 2\nIMG BN 2"]
 0->1
 1->2
 rankdir=TB

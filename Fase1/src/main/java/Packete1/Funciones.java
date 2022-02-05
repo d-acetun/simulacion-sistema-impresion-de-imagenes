@@ -1,7 +1,6 @@
 package Packete1;
 
 import com.google.gson.Gson;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -30,7 +29,7 @@ public class Funciones {
             while((linea=br.readLine())!=null) {
                 contenido+=linea;
             }
-            convertirAJson(contenido);
+            crearClientes(contenido);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -49,7 +48,7 @@ public class Funciones {
         }
         return contenido;
     }
-    public String convertirAJson(String contenido){
+    public String crearClientes(String contenido){
 
         try{
             ListaSimple colaRecepcion = new ListaSimple();
@@ -101,7 +100,7 @@ public class Funciones {
             StringBuilder nodos = new StringBuilder();
             StringBuilder conectarNodos = new StringBuilder();
             nodos.append("digraph ejemplo {\n");
-            Nodo aux = lista.primero;
+            Nodo aux = lista.getPrimero();
             int id=0;
             int idAnterior=0;
             while (aux != null){
@@ -147,6 +146,21 @@ public class Funciones {
         }
 
     }
+    
+    public String crearVentanillas(int numeroVentanillas){
+        try{
+            ListaSimple listaVentanillas = new ListaSimple();
+            for(int i=1; i<=numeroVentanillas; i++){
+                Ventanilla nuevaVentanilla = new Ventanilla("Ventanilla"+i);
+                listaVentanillas.insertarFinal(nuevaVentanilla);
+            }
+            System.out.println("Ventanillas creadas exitosamente");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return "";
+    }
     public void menu(){
         Scanner entradaEscaner = new Scanner(System.in);
         System.out.println("*****MENU*****");
@@ -162,12 +176,16 @@ public class Funciones {
             case "1":
                 Scanner entradaParametros = new Scanner(System.in);
                 System.out.println("1. Carga Masiva de clientes");
-                System.out.println("2. Carga de ventanillas");
+                System.out.println("2. Cantidad de ventanillas");
                 System.out.println("Seleccionar Opcion:  ");
                 String opcionParametros = entradaParametros.nextLine();
-                if (opcion.equals("1")){
+                if (opcionParametros.equals("1")){
                     leerArchivo();
-            }else if (opcion.equals("2")){
+            }else if (opcionParametros.equals("2")){
+                    Scanner entradaCantidadVentanillas = new Scanner(System.in);
+                    System.out.print("Ingresar la cantidad de ventanillas ");
+                    int numeroVentanillas = entradaCantidadVentanillas.nextInt();
+                    crearVentanillas(numeroVentanillas);
 
                 }
                 break;
@@ -182,7 +200,58 @@ public class Funciones {
         System.out.println();
     }
     public void verColaRecepcion(ListaSimple colaRecepcion){
-        colaRecepcion.recorrerColaRecepcion();
+        try {
+            String ruta = "graph.dot";
+            String contenido = "Contenido de ejemplo";
+            StringBuilder nodos = new StringBuilder();
+            StringBuilder conectarNodos = new StringBuilder();
+            nodos.append("digraph ejemplo {\n");
+            Nodo aux = colaRecepcion.getPrimero();
+            int id=0;
+            int idAnterior=0;
+            while (aux != null){
+                Cliente cliente = (Cliente) aux.getDato();
+                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]", id,
+                        cliente.getNombre_cliente(), cliente.getImg_color(), cliente.getImg_bw()
+                ));
+                nodos.append("\n");
+                aux = aux.getSiguiente();
+                if(id>0){
+                    conectarNodos.append(idAnterior+"->"+id+"\n");
+                }
+                idAnterior = id;
+                id++;
+
+
+            }
+            nodos.append(conectarNodos);
+            nodos.append("rankdir=TB\n}");
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nodos.toString());
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String parametros[] = new String[5];
+        parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+        parametros[1] = "-Tpng";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\graph.dot";
+        parametros[3] = "-o";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\g.png";
+
+        try {
+            Process proceso = Runtime.getRuntime().exec(parametros, null);
+            proceso.waitFor();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("errror");
+            e.printStackTrace();
+        }
 
     }
     public void listas(){

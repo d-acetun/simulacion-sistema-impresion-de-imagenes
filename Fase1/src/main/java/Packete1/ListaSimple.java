@@ -1,9 +1,9 @@
 package Packete1;
 
 public class ListaSimple {
-    public Nodo primero;
-    public Nodo ultimo;
-    public int size;
+    private Nodo primero;
+    private Nodo ultimo;
+    private int size;
 
     public ListaSimple() {
         this.primero = null;
@@ -61,4 +61,30 @@ public class ListaSimple {
     public boolean estaVacia(){
         return this.primero == null;
     }
+
+    public Nodo getPrimero() {
+        return primero;
+    }
+
+    public void setPrimero(Nodo primero) {
+        this.primero = primero;
+    }
+
+    public Nodo getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(Nodo ultimo) {
+        this.ultimo = ultimo;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }
+
+
