@@ -155,10 +155,11 @@ public class Funciones {
                 listaVentanillas.insertarFinal(nuevaVentanilla);
             }
             System.out.println("Ventanillas creadas exitosamente");
+            verListaVentanillas(listaVentanillas);
+
         }catch (Exception e){
             e.printStackTrace();
         }
-        
         return "";
     }
     public void menu(){
@@ -201,11 +202,10 @@ public class Funciones {
     }
     public void verColaRecepcion(ListaSimple colaRecepcion){
         try {
-            String ruta = "graph.dot";
-            String contenido = "Contenido de ejemplo";
+            String ruta = "colaRecepcion.dot";
             StringBuilder nodos = new StringBuilder();
             StringBuilder conectarNodos = new StringBuilder();
-            nodos.append("digraph ejemplo {\n");
+            nodos.append("digraph ejemplo {\nedge[arrowhead=none]\n");
             Nodo aux = colaRecepcion.getPrimero();
             int id=0;
             int idAnterior=0;
@@ -241,9 +241,9 @@ public class Funciones {
         String parametros[] = new String[5];
         parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
         parametros[1] = "-Tpng";
-        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\graph.dot";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\colaRecepcion.dot";
         parametros[3] = "-o";
-        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\g.png";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\colaRecepcion.png";
 
         try {
             Process proceso = Runtime.getRuntime().exec(parametros, null);
@@ -252,6 +252,62 @@ public class Funciones {
             System.out.println("errror");
             e.printStackTrace();
         }
+
+    }
+
+    public void verListaVentanillas(ListaSimple listaVentanillas){
+        try {
+            String ruta = "listaVentanillas.dot";
+            StringBuilder nodos = new StringBuilder();
+            StringBuilder conectarNodos = new StringBuilder();
+            nodos.append("digraph listaVentanillas {\nedge[arrowhead=none]\n");
+            Nodo aux = listaVentanillas.getPrimero();
+            int id=0;
+            int idAnterior=0;
+            while (aux != null){
+                Ventanilla ventanilla = (Ventanilla) aux.getDato();
+                nodos.append(String.format("%d [label=%s]", id, ventanilla.getNumeroVentanilla()));
+                nodos.append("\n");
+                aux = aux.getSiguiente();
+                if(id>0){
+                    conectarNodos.append(idAnterior+"->"+id+"\n");
+                }
+                idAnterior = id;
+                id++;
+
+
+            }
+            nodos.append(conectarNodos);
+            nodos.append("rankdir=TB\n}");
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nodos.toString());
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String parametros[] = new String[5];
+        parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+        parametros[1] = "-Tpng";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\listaVentanillas.dot";
+        parametros[3] = "-o";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\listaVentanillas.png";
+
+        try {
+            Process proceso = Runtime.getRuntime().exec(parametros, null);
+            proceso.waitFor();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("errror");
+            e.printStackTrace();
+        }
+    }
+
+    public void ejecutarPaso(){
 
     }
     public void listas(){
