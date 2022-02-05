@@ -5,6 +5,7 @@ public class Main {
         Funciones inicio = new Funciones();
         inicio.leerArchivo();
 
+//        inicio.crearGraphviz();
 //        inicio.listas();
 
 

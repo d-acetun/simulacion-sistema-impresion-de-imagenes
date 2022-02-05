@@ -1,0 +1,8 @@
+digraph ejemplo {
+0 [label="Andres Lopez"]
+1 [label="Juan Perez"]
+2 [label="Luiz Higueros"]
+0->1
+1->2
+rankdir=TB
+}

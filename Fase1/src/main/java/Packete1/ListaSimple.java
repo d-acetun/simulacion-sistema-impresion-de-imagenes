@@ -51,8 +51,8 @@ public class ListaSimple {
     public void recorrerColaRecepcion(){
         Nodo aux = this.primero;
         while (aux != null){
-            Cliente cl = (Cliente) aux.getDato();
-            System.out.println(cl.getId_cliente());
+            Cliente cliente = (Cliente) aux.getDato();
+            System.out.println(cliente.mostrarDatos());
             aux = aux.getSiguiente();
 
         }

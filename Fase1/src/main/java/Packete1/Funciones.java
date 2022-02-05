@@ -2,9 +2,7 @@ package Packete1;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -67,7 +65,6 @@ public class Funciones {
             String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
 
             Cliente nuevoCliente = new Cliente(id_cliente, nombre_cliente, img_color, img_bw);
-            System.out.println("insertando al inicio... "+nuevoCliente.getId_cliente());
             colaRecepcion.insertarInicio(nuevoCliente);
 //            System.out.println(nuevoCliente.mostrarDatos());
             //Usar la siguiente sintaxis si no se saben las claves
@@ -78,10 +75,65 @@ public class Funciones {
 //            }
 //            System.out.println();
         }
-        colaRecepcion.recorrerColaRecepcion();
+//        colaRecepcion.recorrerColaRecepcion();
 
+        crearGraphviz(colaRecepcion);
 
         return "";
+    }
+
+    public void crearGraphviz(ListaSimple lista){
+        try {
+            String ruta = "graph.dot";
+            String contenido = "Contenido de ejemplo";
+            StringBuilder nodos = new StringBuilder();
+            StringBuilder conectarNodos = new StringBuilder();
+            nodos.append("digraph ejemplo {\n");
+            Nodo aux = lista.primero;
+            int id=0;
+            int idAnterior=0;
+            while (aux != null){
+                Cliente cliente = (Cliente) aux.getDato();
+                nodos.append(String.format("%d [label=\"%s\"]", id, cliente.getNombre_cliente()));
+                nodos.append("\n");
+                aux = aux.getSiguiente();
+                if(id>0){
+                    conectarNodos.append(idAnterior+"->"+id+"\n");
+                }
+                idAnterior = id;
+                id++;
+
+
+            }
+            nodos.append(conectarNodos);
+            nodos.append("rankdir=TB\n}");
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nodos.toString());
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String parametros[] = new String[5];
+        parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+        parametros[1] = "-Tpng";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\graph.dot";
+        parametros[3] = "-o";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\g.png";
+
+        try {
+            Process proceso = Runtime.getRuntime().exec(parametros, null);
+            proceso.waitFor();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("errror");
+            e.printStackTrace();
+        }
+
     }
     public void listas(){
         ListaSimple lista = new ListaSimple();
