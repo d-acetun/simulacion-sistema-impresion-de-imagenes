@@ -6,14 +6,10 @@ edge[arrowhead=none]
 3 [label=Ventanilla4]
 4 [label=Ventanilla5]
 5 [label=Ventanilla6]
-6 [label=Ventanilla7]
-7 [label=Ventanilla8]
 0->1
 1->2
 2->3
 3->4
 4->5
-5->6
-6->7
 rankdir=TB
 }

@@ -5,5 +5,5 @@ edge[arrowhead=none]
 2 [label="Luiz Higueros\nIMG C 2\nIMG BN 2"]
 0->1
 1->2
-rankdir=TB
+rankdir=LR
 }

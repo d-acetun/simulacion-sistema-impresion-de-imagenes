@@ -152,10 +152,12 @@ public class Funciones {
             ListaSimple listaVentanillas = new ListaSimple();
             for(int i=1; i<=numeroVentanillas; i++){
                 Ventanilla nuevaVentanilla = new Ventanilla("Ventanilla"+i);
-                listaVentanillas.insertarFinal(nuevaVentanilla);
+                listaVentanillas.insertarFinalAbajo(nuevaVentanilla);
             }
             System.out.println("Ventanillas creadas exitosamente");
-            verListaVentanillas(listaVentanillas);
+//            verListaVentanillas(listaVentanillas);
+            ejecutarPaso(listaVentanillas);
+            menu();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -225,7 +227,7 @@ public class Funciones {
 
             }
             nodos.append(conectarNodos);
-            nodos.append("rankdir=TB\n}");
+            nodos.append("rankdir=LR\n}");
             File file = new File(ruta);
             // Si el archivo no existe es creado
             if (!file.exists()) {
@@ -261,14 +263,14 @@ public class Funciones {
             StringBuilder nodos = new StringBuilder();
             StringBuilder conectarNodos = new StringBuilder();
             nodos.append("digraph listaVentanillas {\nedge[arrowhead=none]\n");
-            Nodo aux = listaVentanillas.getPrimero();
+            Nodo aux = listaVentanillas.getPrimeroAbajo();
             int id=0;
             int idAnterior=0;
             while (aux != null){
                 Ventanilla ventanilla = (Ventanilla) aux.getDato();
                 nodos.append(String.format("%d [label=%s]", id, ventanilla.getNumeroVentanilla()));
                 nodos.append("\n");
-                aux = aux.getSiguiente();
+                aux = aux.getSiguienteAbajo();
                 if(id>0){
                     conectarNodos.append(idAnterior+"->"+id+"\n");
                 }
@@ -307,7 +309,25 @@ public class Funciones {
         }
     }
 
-    public void ejecutarPaso(){
+    public void ejecutarPaso(ListaSimple listaVentanillas){
+        Nodo aux = listaVentanillas.getPrimeroAbajo();
+        while (aux!=null){
+
+            Ventanilla ventanilla = (Ventanilla) aux.getDato();
+            System.out.println(ventanilla.isEstaDisponible());
+            ventanilla.setEstaDisponible(false);
+            aux = aux.getSiguienteAbajo();
+        }
+
+        Nodo aux2 = listaVentanillas.getPrimeroAbajo();
+        while (aux2!=null){
+            Ventanilla ventanilla = (Ventanilla) aux2.getDato();
+            System.out.println(ventanilla.isEstaDisponible());
+            aux2 = aux2.getSiguienteAbajo();
+        }
+
+
+
 
     }
     public void listas(){
