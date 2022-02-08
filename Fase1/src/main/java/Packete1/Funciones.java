@@ -331,14 +331,31 @@ public class Funciones {
     public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas){
         if (colaRecepcion.getPrimero()!= null){
             Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
+            //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
             colaRecepcion.elimiinarInicio();
-            listaVentanillas.insertarFinal(clienteAInsertar);
+            Nodo aux = listaVentanillas.getPrimeroAbajo();
+            Nodo aux2 = listaVentanillas.getPrimero();
+            while (aux!=null){
+                Ventanilla ventanilla = (Ventanilla) aux.getDato();
+                if (ventanilla.isEstaDisponible()==true){
+                    listaVentanillas.insertarFinal(clienteAInsertar);
+                    ventanilla.setEstaDisponible(false);
+
+                    break;
+                }else {
+
+                }
+                aux=aux.getSiguiente();
+
+            }
             verListaVentanillas(listaVentanillas);
 
             menu(colaRecepcion, listaVentanillas);
         }else{
-            System.out.println("Ya no hay clientes en la pila");
+            System.out.println("Ya no hay clientes en la cola");
         }
+
+
 
         //Cambiando disponibilidad de las ventanillas
 //        Nodo aux = listaVentanillas.getPrimeroAbajo();

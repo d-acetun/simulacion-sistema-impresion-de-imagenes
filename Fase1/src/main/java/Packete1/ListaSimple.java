@@ -69,6 +69,41 @@ public class ListaSimple {
 
     }
 
+//    public Object eliminarDato(Object dato){
+//        Nodo aux = this.primero;
+//        Nodo anterior = aux;
+//        while (aux != null){
+//            if (aux.getDato() == dato){
+//                anterior.setSiguiente(aux.getSiguiente());
+//                break;
+//            }
+//            anterior = aux;
+//            aux = aux.getSiguiente();
+//
+//        }
+//        return aux.getDato();
+//    }
+    public Object eliminarCliente(int idCliente){
+        Nodo aux = this.primero;
+        Cliente cliente1 = (Cliente) aux.getDato();
+        if (cliente1.getId_cliente() == idCliente){
+            elimiinarInicio();
+            return aux.getDato();
+        }
+        System.out.println("sigue");
+        Nodo anterior = aux;
+        while (aux != null){
+            Cliente cliente = (Cliente) aux.getDato();
+            if (cliente.getId_cliente() == idCliente){
+                anterior.setSiguiente(aux.getSiguiente());
+                break;
+            }
+            anterior = aux;
+            aux = aux.getSiguiente();
+
+        }
+        return aux.getDato();
+    }
     public void recorrer(){
         Nodo aux = this.primero;
         while (aux != null){
