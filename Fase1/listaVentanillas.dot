@@ -1,15 +1,19 @@
 digraph listaVentanillas {
+node[shape=box]
 edge[arrowhead=none]
 0 [label=Ventanilla1]
 1 [label=Ventanilla2]
 2 [label=Ventanilla3]
-3 [label=Ventanilla4]
-4 [label=Ventanilla5]
-5 [label=Ventanilla6]
+3 [label="Andres Lopez\nIMG C 66\nIMG BN 5"]
+4 [label="Juan Perez\nIMG C 3\nIMG BN 0"]
+5 [label="Luiz Higueros\nIMG C 2\nIMG BN 2"]
 0->1
 1->2
-2->3
-3->4
-4->5
+3->0
+4->1
+5->2
+{rank=same; 3; 0}
+{rank=same; 4; 1}
+{rank=same; 5; 2}
 rankdir=TB
 }

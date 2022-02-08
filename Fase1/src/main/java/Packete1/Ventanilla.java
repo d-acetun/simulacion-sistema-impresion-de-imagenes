@@ -4,11 +4,12 @@ public class Ventanilla {
     private String numeroVentanilla;
     private ListaSimple listaImagenes;
     private boolean estaDisponible;
-
+    private int idGrafo;
     public Ventanilla(String numeroVentanilla) {
         this.numeroVentanilla = numeroVentanilla;
         this.listaImagenes = null;
         this.estaDisponible = true;
+        idGrafo = 0;
     }
 
     public String getNumeroVentanilla() {
@@ -33,5 +34,13 @@ public class Ventanilla {
 
     public void setEstaDisponible(boolean estaDisponible) {
         this.estaDisponible = estaDisponible;
+    }
+
+    public int getIdGrafo() {
+        return idGrafo;
+    }
+
+    public void setIdGrafo(int idGrafo) {
+        this.idGrafo = idGrafo;
     }
 }

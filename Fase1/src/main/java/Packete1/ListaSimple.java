@@ -104,6 +104,11 @@ public class ListaSimple {
         return this.primeroAbajo == null;
     }
 
+    public void elimiinarInicio(){
+        this.primero = this.primero.getSiguiente();
+
+    }
+
     public Nodo getPrimero() {
         return primero;
     }
