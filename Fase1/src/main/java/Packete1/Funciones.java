@@ -382,10 +382,9 @@ public class Funciones {
 
     public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas){
         //El error esta en este metodo
-        if (colaRecepcion.getPrimero()!= null){
-            Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
+//            Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
             //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
-            colaRecepcion.elimiinarInicio();
+//            colaRecepcion.elimiinarInicio();
             Nodo aux = listaVentanillas.getPrimeroAbajo();
 //            Nodo aux2 = listaVentanillas.getPrimero();
             /*Lo primero es recorrer las ventanillas y ver cual esta vacia
@@ -393,20 +392,23 @@ public class Funciones {
             boolean unSoloPaso = true;
             while (aux!=null){
                 Ventanilla ventanilla = (Ventanilla) aux.getDato();
-                if (ventanilla.isEstaDisponible()==true){
+                if (ventanilla.isEstaDisponible() && colaRecepcion.getPrimero()!=null){
+                    Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
+                    colaRecepcion.elimiinarInicio();
                     listaVentanillas.insertarFinal(clienteAInsertar);
                     ventanilla.setEstaDisponible(false);
-
                     break;
                 }
-                if(unSoloPaso==true){
-
+                if(unSoloPaso){
+                    //Aqui recorro los clientes en las ventanillas
                     Nodo aux2 = listaVentanillas.getPrimero();
+                    Nodo auxVentanilla = listaVentanillas.getPrimeroAbajo();
                     while (aux2!=null){
                         Cliente cliente = (Cliente) aux2.getDato();
+                        Ventanilla ventanilla1 = (Ventanilla) auxVentanilla.getDato();
                         ListaSimple pilaImagenes;
-                        if (ventanilla.getListaImagenes()!=null){
-                            pilaImagenes = ventanilla.getListaImagenes();
+                        if (ventanilla1.getListaImagenes()!=null){
+                            pilaImagenes = ventanilla1.getListaImagenes();
 
                         }else {
                             pilaImagenes = new ListaSimple();
@@ -415,18 +417,19 @@ public class Funciones {
                         if (cliente.getImg_color()>0){
                             Imagen nuevaImg = new Imagen("Color", cliente.getId_cliente());
                             pilaImagenes.insertarInicio(nuevaImg);
-                            ventanilla.setListaImagenes(pilaImagenes);
+                            ventanilla1.setListaImagenes(pilaImagenes);
                             cliente.setImg_color(cliente.getImg_color()-1);
                         }else if (cliente.getImg_bw()>0){
                             Imagen nuevaImg = new Imagen("BN", cliente.getId_cliente());
                             pilaImagenes.insertarInicio(nuevaImg);
-                            ventanilla.setListaImagenes(pilaImagenes);
+                            ventanilla1.setListaImagenes(pilaImagenes);
                             cliente.setImg_bw(cliente.getImg_bw()-1);
 
                         }else{
-                            ventanilla.setEstaDisponible(true);
+                            ventanilla1.setEstaDisponible(true);
                         }
                         aux2 = aux2.getSiguiente();
+                        auxVentanilla = auxVentanilla.getSiguienteAbajo();
 
                     }
 
@@ -438,8 +441,6 @@ public class Funciones {
             verListaVentanillas(listaVentanillas);
 
             menu(colaRecepcion, listaVentanillas);
-        }else{
-            System.out.println("Ya no hay clientes en la cola");
         }
 
 
@@ -458,7 +459,7 @@ public class Funciones {
 
 
 
-    }
+
     public void listas(){
         ListaSimple lista = new ListaSimple();
         lista.insertarFinal("jajaj");
