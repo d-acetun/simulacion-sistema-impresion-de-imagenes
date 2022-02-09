@@ -286,15 +286,67 @@ public class Funciones {
             while (aux!=null && aux2!=null){
                 Cliente cliente = (Cliente) aux.getDato();
                 Ventanilla ventanilla = (Ventanilla) aux2.getDato();
-                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]", id,
+                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
                         cliente.getNombre_cliente(), cliente.getImg_color(), cliente.getImg_bw()
                 ));
-                nodos.append("\n");
+
                 conectarNodos.append(id+"->"+ventanilla.getIdGrafo()+"\n");
                 rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
+                id++;
+                if (ventanilla.getListaImagenes()!= null){
+                    Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
+                    Imagen img;
+                    if (auxImg !=null){
+                        img = (Imagen) auxImg.getDato();
+                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
+                        ));
+                        conectarNodos.append(ventanilla.getIdGrafo()+"->"+id+"\n");
+                        rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
+                        idAnterior = id;
+                        id++;
+                        auxImg = auxImg.getSiguiente();
+                    }
+                    while (auxImg!=null){
+                        img = (Imagen) auxImg.getDato();
+                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
+                        ));
+                        conectarNodos.append(idAnterior+"->"+id+"\n");
+                        rank.append(String.format("{rank=same; %d; %d}\n", idAnterior, id));
+                        idAnterior = id;
+                        id++;
+                        auxImg = auxImg.getSiguiente();
+                    }
+                }
+
+
                 aux = aux.getSiguiente();
                 aux2 = aux2.getSiguienteAbajo();
-                id++;
+
+
+            }
+            aux = listaVentanillas.getPrimeroAbajo();
+            aux2 = listaVentanillas.getPrimero();
+            while (aux!=null && aux2!=null){
+                Ventanilla ventanilla = (Ventanilla) aux.getDato();
+                System.out.println(ventanilla.getNumeroVentanilla()+" contiene el cliente: ");
+                Cliente cliente = (Cliente) aux2.getDato();
+
+                System.out.println(cliente.getNombre_cliente());
+                System.out.println("Con las imagenes:");
+                if (ventanilla.getListaImagenes()!= null) {
+
+
+                    ListaSimple pilaImg = ventanilla.getListaImagenes();
+                    Nodo auxImg = pilaImg.getPrimero();
+                    while (auxImg != null) {
+                        Imagen imagen = (Imagen) auxImg.getDato();
+                        System.out.println(imagen.getTipo());
+                        auxImg = auxImg.getSiguiente();
+                    }
+                }
+
+                aux = aux.getSiguiente();
+                aux2 = aux2.getSiguiente();
 
             }
             nodos.append(conectarNodos);
@@ -329,12 +381,16 @@ public class Funciones {
     }
 
     public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas){
+        //El error esta en este metodo
         if (colaRecepcion.getPrimero()!= null){
             Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
             //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
             colaRecepcion.elimiinarInicio();
             Nodo aux = listaVentanillas.getPrimeroAbajo();
-            Nodo aux2 = listaVentanillas.getPrimero();
+//            Nodo aux2 = listaVentanillas.getPrimero();
+            /*Lo primero es recorrer las ventanillas y ver cual esta vacia
+            */
+            boolean unSoloPaso = true;
             while (aux!=null){
                 Ventanilla ventanilla = (Ventanilla) aux.getDato();
                 if (ventanilla.isEstaDisponible()==true){
@@ -342,10 +398,41 @@ public class Funciones {
                     ventanilla.setEstaDisponible(false);
 
                     break;
-                }else {
-
                 }
-                aux=aux.getSiguiente();
+                if(unSoloPaso==true){
+
+                    Nodo aux2 = listaVentanillas.getPrimero();
+                    while (aux2!=null){
+                        Cliente cliente = (Cliente) aux2.getDato();
+                        ListaSimple pilaImagenes;
+                        if (ventanilla.getListaImagenes()!=null){
+                            pilaImagenes = ventanilla.getListaImagenes();
+
+                        }else {
+                            pilaImagenes = new ListaSimple();
+                        }
+                        //Recibiendo imgs en ventanilla
+                        if (cliente.getImg_color()>0){
+                            Imagen nuevaImg = new Imagen("Color", cliente.getId_cliente());
+                            pilaImagenes.insertarInicio(nuevaImg);
+                            ventanilla.setListaImagenes(pilaImagenes);
+                            cliente.setImg_color(cliente.getImg_color()-1);
+                        }else if (cliente.getImg_bw()>0){
+                            Imagen nuevaImg = new Imagen("BN", cliente.getId_cliente());
+                            pilaImagenes.insertarInicio(nuevaImg);
+                            ventanilla.setListaImagenes(pilaImagenes);
+                            cliente.setImg_bw(cliente.getImg_bw()-1);
+
+                        }else{
+                            ventanilla.setEstaDisponible(true);
+                        }
+                        aux2 = aux2.getSiguiente();
+
+                    }
+
+                    unSoloPaso = false;
+                }
+                aux=aux.getSiguienteAbajo();
 
             }
             verListaVentanillas(listaVentanillas);

@@ -4,11 +4,11 @@ public class Main {
 
         Funciones inicio = new Funciones();
 //        inicio.leerArchivo();
-//        inicio.menu(null, null);
+        inicio.menu(null, null);
 //        inicio.crearGraphviz();
 //        inicio.listas();
 
-        prueba();
+//        prueba();
     }
 
     public static void prueba(){

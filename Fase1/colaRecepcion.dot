@@ -1,7 +1,7 @@
 digraph ejemplo {
 node[shape=box]
 edge[arrowhead=none]
-0 [label="Andres Lopez\nIMG C 66\nIMG BN 5"]
+0 [label="Andres Lopez\nIMG C 2\nIMG BN 2"]
 1 [label="Juan Perez\nIMG C 3\nIMG BN 0"]
 2 [label="Luiz Higueros\nIMG C 2\nIMG BN 2"]
 0->1
