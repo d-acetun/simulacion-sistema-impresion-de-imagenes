@@ -423,9 +423,11 @@ public class Funciones {
         /*Lo primero es recorrer las ventanillas y ver cual esta vacia
          */
         boolean unSoloPaso = true;
+        boolean unSoloCliente = true;
         while (aux != null) {
             Ventanilla ventanilla = (Ventanilla) aux.getDato();
-            if (ventanilla.isEstaDisponible() && colaRecepcion.getPrimero() != null) {
+            if (ventanilla.isEstaDisponible() && colaRecepcion.getPrimero() != null && unSoloCliente) {
+                unSoloCliente=false;
                 Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
                 System.out.println(ventanilla.getNumeroVentanilla() + " disponible");
                 System.out.println("Cliente " + clienteAInsertar.getNombre_cliente() + " insertado");
@@ -433,15 +435,18 @@ public class Funciones {
 //                    listaVentanillas.insertarFinal(clienteAInsertar);
                 ventanilla.setCliente(clienteAInsertar);
                 ventanilla.setEstaDisponible(false);
-
-                break;
+                aux = aux.getSiguienteAbajo();
+                continue;
             }
 
 //                System.out.println(ventanilla.getNumeroVentanilla());
 //                System.out.println("Tiene al cliente " + ventanilla.getCliente().getNombre_cliente());
 //                System.out.println("Con " + ventanilla.getCliente().getImg_color() + " " + ventanilla.getCliente().getImg_bw());
                 //Aqui recorro los clientes en las ventanillas
-
+                if (ventanilla.getCliente()==null){
+                    aux = aux.getSiguienteAbajo();
+                    continue;
+                }
                 Cliente cliente = (Cliente) ventanilla.getCliente();
                 ListaSimple pilaImagenes;
                 if (ventanilla.getListaImagenes() != null) {
@@ -472,13 +477,12 @@ public class Funciones {
                     ventanilla.setCliente(null);
                     System.out.println("Se elimino el cliente nombre" + cliente.getNombre_cliente());
                     ventanilla.setListaImagenes(null);
+                    continue;
 
                 }
 
-
-
-
             aux = aux.getSiguienteAbajo();
+
 
         }
 //            verListaVentanillas(listaVentanillas);

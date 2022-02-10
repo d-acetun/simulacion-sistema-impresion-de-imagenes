@@ -4,27 +4,29 @@ edge[arrowhead=none]
 0 [label=Ventanilla1]
 1 [label="Vinni Richardot\nIMG C 2\nIMG BN 1"]
 2 [label=Ventanilla2]
-3 [label="Rosalinde Bradnum\nIMG C 0\nIMG BN 1"]
-4[label=Color]
-5 [label=Ventanilla3]
-6 [label=Ventanilla4]
-7 [label="Genni Clougher\nIMG C 0\nIMG BN 0"]
-8[label=BN]
-9[label=Color]
+3 [label="Theda Donaho\nIMG C 0\nIMG BN 0"]
+4[label=BN]
+5[label=Color]
+6 [label=Ventanilla3]
+7 [label="Rosalinde Bradnum\nIMG C 0\nIMG BN 1"]
+8[label=Color]
+9 [label=Ventanilla4]
+10 [label=Ventanilla5]
 1->0
 0->2
 3->2
 2->4
-2->5
-5->6
+4->5
+2->6
 7->6
 6->8
-8->9
+6->9
+9->10
 {rank=same; 1; 0}
 {rank=same; 3; 2}
 {rank=same; 2; 4}
+{rank=same; 4; 5}
 {rank=same; 7; 6}
 {rank=same; 6; 8}
-{rank=same; 8; 9}
 rankdir=TB
 }
