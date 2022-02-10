@@ -272,89 +272,116 @@ public class Funciones {
             Nodo aux = listaVentanillas.getPrimeroAbajo();
             int id = 0;
             int idAnterior = 0;
+            boolean esPrimeraVentanilla = true;
             while (aux != null) {
                 Ventanilla ventanilla = (Ventanilla) aux.getDato();
                 ventanilla.setIdGrafo(id);
                 nodos.append(String.format("%d [label=%s]", id, ventanilla.getNumeroVentanilla()));
                 nodos.append("\n");
-                aux = aux.getSiguienteAbajo();
-                if (id > 0) {
+
+                if (esPrimeraVentanilla==false) {
                     conectarNodos.append(idAnterior + "->" + id + "\n");
                 }
+
                 idAnterior = id;
                 id++;
+                if (ventanilla.getCliente()!=null){
+                    nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
+                            ventanilla.getCliente().getNombre_cliente(), ventanilla.getCliente().getImg_color(),
+                            ventanilla.getCliente().getImg_bw()
+                    ));
+                    conectarNodos.append(id + "->" + idAnterior + "\n");
+                    rank.append(String.format("{rank=same; %d; %d}\n", id, idAnterior));
+                    id++;
+                    if (ventanilla.getListaImagenes()!=null){
+                        int idAnteriorImg = idAnterior;
+                        Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
+                        while (auxImg!=null){
+                            Imagen imagen = (Imagen) auxImg.getDato();
+                            nodos.append(String.format("%d[label=%s]\n", id, imagen.getTipo()));
+                            conectarNodos.append(idAnteriorImg+"->"+id+"\n");
+                            rank.append(String.format("{rank=same; %d; %d}\n", idAnteriorImg, id));
+                            idAnteriorImg = id;
+                            id++;
+                            auxImg = auxImg.getSiguiente();
 
-
-            }
-            aux = listaVentanillas.getPrimero();
-            Nodo aux2 = listaVentanillas.getPrimeroAbajo();
-//            System.out.println(aux.getDato());
-            while (aux != null && aux2 != null) {
-                Cliente cliente = (Cliente) aux.getDato();
-                Ventanilla ventanilla = (Ventanilla) aux2.getDato();
-                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
-                        cliente.getNombre_cliente(), cliente.getImg_color(), cliente.getImg_bw()
-                ));
-
-                conectarNodos.append(id + "->" + ventanilla.getIdGrafo() + "\n");
-                rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
-                id++;
-                if (ventanilla.getListaImagenes() != null) {
-                    Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
-                    Imagen img;
-                    if (auxImg != null) {
-                        img = (Imagen) auxImg.getDato();
-                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
-                        ));
-                        conectarNodos.append(ventanilla.getIdGrafo() + "->" + id + "\n");
-                        rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
-                        idAnterior = id;
-                        id++;
-                        auxImg = auxImg.getSiguiente();
+                        }
                     }
-                    while (auxImg != null) {
-                        img = (Imagen) auxImg.getDato();
-                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
-                        ));
-                        conectarNodos.append(idAnterior + "->" + id + "\n");
-                        rank.append(String.format("{rank=same; %d; %d}\n", idAnterior, id));
-                        idAnterior = id;
-                        id++;
-                        auxImg = auxImg.getSiguiente();
-                    }
+
                 }
-
-
-                aux = aux.getSiguiente();
-                aux2 = aux2.getSiguienteAbajo();
-
+                esPrimeraVentanilla=false;
+                aux = aux.getSiguienteAbajo();
 
             }
-            aux = listaVentanillas.getPrimeroAbajo();
-            aux2 = listaVentanillas.getPrimero();
-            while (aux != null && aux2 != null) {
-                Ventanilla ventanilla = (Ventanilla) aux.getDato();
-                System.out.println(ventanilla.getNumeroVentanilla() + " contiene el cliente: ");
-                Cliente cliente = (Cliente) aux2.getDato();
-
-                System.out.println(cliente.getNombre_cliente());
-                System.out.println("Con las imagenes:");
-                if (ventanilla.getListaImagenes() != null) {
-
-
-                    ListaSimple pilaImg = ventanilla.getListaImagenes();
-                    Nodo auxImg = pilaImg.getPrimero();
-                    while (auxImg != null) {
-                        Imagen imagen = (Imagen) auxImg.getDato();
-                        System.out.println(imagen.getTipo());
-                        auxImg = auxImg.getSiguiente();
-                    }
-                }
-
-                aux = aux.getSiguiente();
-                aux2 = aux2.getSiguiente();
-
-            }
+//            aux = listaVentanillas.getPrimero();
+//            Nodo aux2 = listaVentanillas.getPrimeroAbajo();
+////            System.out.println(aux.getDato());
+//            while (aux != null && aux2 != null) {
+//                Cliente cliente = (Cliente) aux.getDato();
+//                Ventanilla ventanilla = (Ventanilla) aux2.getDato();
+//                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
+//                        cliente.getNombre_cliente(), cliente.getImg_color(), cliente.getImg_bw()
+//                ));
+//
+//                conectarNodos.append(id + "->" + ventanilla.getIdGrafo() + "\n");
+//                rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
+//                id++;
+//                if (ventanilla.getListaImagenes() != null) {
+//                    Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
+//                    Imagen img;
+//                    if (auxImg != null) {
+//                        img = (Imagen) auxImg.getDato();
+//                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
+//                        ));
+//                        conectarNodos.append(ventanilla.getIdGrafo() + "->" + id + "\n");
+//                        rank.append(String.format("{rank=same; %d; %d}\n", id, ventanilla.getIdGrafo()));
+//                        idAnterior = id;
+//                        id++;
+//                        auxImg = auxImg.getSiguiente();
+//                    }
+//                    while (auxImg != null) {
+//                        img = (Imagen) auxImg.getDato();
+//                        nodos.append(String.format("%d [label=%s]\n", id, img.getTipo()
+//                        ));
+//                        conectarNodos.append(idAnterior + "->" + id + "\n");
+//                        rank.append(String.format("{rank=same; %d; %d}\n", idAnterior, id));
+//                        idAnterior = id;
+//                        id++;
+//                        auxImg = auxImg.getSiguiente();
+//                    }
+//                }
+//
+//
+//                aux = aux.getSiguiente();
+//                aux2 = aux2.getSiguienteAbajo();
+//
+//
+//            }
+//            aux = listaVentanillas.getPrimeroAbajo();
+//            aux2 = listaVentanillas.getPrimero();
+//            while (aux != null && aux2 != null) {
+//                Ventanilla ventanilla = (Ventanilla) aux.getDato();
+//                System.out.println(ventanilla.getNumeroVentanilla() + " contiene el cliente: ");
+//                Cliente cliente = (Cliente) aux2.getDato();
+//
+//                System.out.println(cliente.getNombre_cliente());
+//                System.out.println("Con las imagenes:");
+//                if (ventanilla.getListaImagenes() != null) {
+//
+//
+//                    ListaSimple pilaImg = ventanilla.getListaImagenes();
+//                    Nodo auxImg = pilaImg.getPrimero();
+//                    while (auxImg != null) {
+//                        Imagen imagen = (Imagen) auxImg.getDato();
+//                        System.out.println(imagen.getTipo());
+//                        auxImg = auxImg.getSiguiente();
+//                    }
+//                }
+//
+//                aux = aux.getSiguiente();
+//                aux2 = aux2.getSiguiente();
+//
+//            }
             nodos.append(conectarNodos);
             nodos.append(rank);
             nodos.append("rankdir=TB\n}");
@@ -455,7 +482,7 @@ public class Funciones {
 
         }
 //            verListaVentanillas(listaVentanillas);
-
+        verListaVentanillas(listaVentanillas);
         menu(colaRecepcion, listaVentanillas);
     }
 
