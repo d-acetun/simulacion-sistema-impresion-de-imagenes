@@ -5,12 +5,15 @@ public class Cliente {
     private String nombre_cliente;
     private int img_color;
     private int img_bw;
-
-    public Cliente(int id_cliente, String nombre_cliente, int img_color, int img_bw) {
+    private int imgColorConstante;
+    private int imgBNConstante;
+    public Cliente(int id_cliente, String nombre_cliente, int img_color, int img_bw, int imgColorConstante, int imgBNConstante) {
         this.id_cliente = id_cliente;
         this.nombre_cliente = nombre_cliente;
         this.img_color = img_color;
         this.img_bw = img_bw;
+        this.imgColorConstante = imgColorConstante;
+        this.imgBNConstante = imgBNConstante;
     }
 
     public int getId_cliente() {
@@ -43,6 +46,22 @@ public class Cliente {
 
     public void setImg_bw(int img_bw) {
         this.img_bw = img_bw;
+    }
+
+    public int getImgColorConstante() {
+        return imgColorConstante;
+    }
+
+    public void setImgColorConstante(int imgColorConstante) {
+        this.imgColorConstante = imgColorConstante;
+    }
+
+    public int getImgBNConstante() {
+        return imgBNConstante;
+    }
+
+    public void setImgBNConstante(int imgBNConstante) {
+        this.imgBNConstante = imgBNConstante;
     }
 
     public String mostrarDatos(){
