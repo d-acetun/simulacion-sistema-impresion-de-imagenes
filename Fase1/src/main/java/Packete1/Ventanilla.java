@@ -5,10 +5,12 @@ public class Ventanilla {
     private ListaSimple listaImagenes;
     private boolean estaDisponible;
     private int idGrafo;
+    private Cliente cliente;
     public Ventanilla(String numeroVentanilla) {
         this.numeroVentanilla = numeroVentanilla;
         this.listaImagenes = null;
         this.estaDisponible = true;
+        this.cliente = null;
         idGrafo = 0;
     }
 
@@ -42,5 +44,13 @@ public class Ventanilla {
 
     public void setIdGrafo(int idGrafo) {
         this.idGrafo = idGrafo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
