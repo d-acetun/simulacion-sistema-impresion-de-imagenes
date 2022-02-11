@@ -4,11 +4,13 @@ public class Imagen {
     private String tipo;
     private int idCliente;
     private int pasos;
+    private Cliente cliente;
 
-    public Imagen(String tipo, int idCliente) {
+    public Imagen(String tipo, Cliente cliente) {
         this.tipo = tipo;
-        this.idCliente = idCliente;
+//        this.idCliente = idCliente;
         this.pasos = 0;
+        this.cliente = cliente;
     }
 
     public String getTipo() {
@@ -33,5 +35,13 @@ public class Imagen {
 
     public void setPasos(int pasos) {
         this.pasos = pasos;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

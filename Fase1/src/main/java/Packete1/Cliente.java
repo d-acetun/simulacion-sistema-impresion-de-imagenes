@@ -7,6 +7,8 @@ public class Cliente {
     private int img_bw;
     private int imgColorConstante;
     private int imgBNConstante;
+    private int pasos;
+    private boolean tieneTodasSusImgs;
     public Cliente(int id_cliente, String nombre_cliente, int img_color, int img_bw, int imgColorConstante, int imgBNConstante) {
         this.id_cliente = id_cliente;
         this.nombre_cliente = nombre_cliente;
@@ -14,6 +16,8 @@ public class Cliente {
         this.img_bw = img_bw;
         this.imgColorConstante = imgColorConstante;
         this.imgBNConstante = imgBNConstante;
+        this.pasos = 0;
+        this.tieneTodasSusImgs = false;
     }
 
     public int getId_cliente() {
@@ -62,6 +66,22 @@ public class Cliente {
 
     public void setImgBNConstante(int imgBNConstante) {
         this.imgBNConstante = imgBNConstante;
+    }
+
+    public int getPasos() {
+        return pasos;
+    }
+
+    public void setPasos(int pasos) {
+        this.pasos = pasos;
+    }
+
+    public boolean isTieneTodasSusImgs() {
+        return tieneTodasSusImgs;
+    }
+
+    public void setTieneTodasSusImgs(boolean tieneTodasSusImgs) {
+        this.tieneTodasSusImgs = tieneTodasSusImgs;
     }
 
     public String mostrarDatos(){

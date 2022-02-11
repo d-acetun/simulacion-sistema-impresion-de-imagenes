@@ -37,7 +37,7 @@ public class Funciones {
             ListaSimple colaRecepcion = crearClientes(contenido);
             ListaSimple listaVentanillas = crearVentanillas();
             ListaSimple colaImpresoras = new ListaSimple();
-            menu(colaRecepcion, listaVentanillas, colaImpresoras);
+            menu(colaRecepcion, listaVentanillas, colaImpresoras, 0, true, true);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -179,7 +179,8 @@ public class Funciones {
         return listaVentanillas;
     }
 
-    public void menu(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras) {
+    public void menu(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras, int numeroPaso,
+                     boolean colorDisponible, boolean BNDisponible) {
         Scanner entradaEscaner = new Scanner(System.in);
         System.out.println("*****MENU*****");
         System.out.println("1. Parametros Iniciales");
@@ -195,7 +196,7 @@ public class Funciones {
                 leerArchivo();
                 break;
             case "2":
-                ejecutarPaso(colaRecepcion, listaVentanillas, colaImpresoras);
+                ejecutarPaso(colaRecepcion, listaVentanillas, colaImpresoras, numeroPaso, colorDisponible, BNDisponible);
                 break;
             case "6":
                 break;
@@ -414,7 +415,9 @@ public class Funciones {
         }
     }
 
-    public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras) {
+    public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras,
+                             int numeroPaso, boolean colorDisponible, boolean BNDisponible) {
+        numeroPaso++;
         //El error esta en este metodo
 //            Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
         //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
@@ -431,11 +434,13 @@ public class Funciones {
         }
         boolean unSoloPaso = true;
         boolean unSoloCliente = true;
+        System.out.println("-".repeat(10)+"PASO "+numeroPaso+"-".repeat(10));
         while (aux != null) {
             Ventanilla ventanilla = (Ventanilla) aux.getDato();
             if (ventanilla.isEstaDisponible() && colaRecepcion.getPrimero() != null && unSoloCliente) {
                 unSoloCliente=false;
                 Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
+                System.out.println(clienteAInsertar.getNombre_cliente()+" Ingresa a la "+ventanilla.getNumeroVentanilla());
 //                System.out.println(ventanilla.getNumeroVentanilla() + " disponible");
 //                System.out.println("Cliente " + clienteAInsertar.getNombre_cliente() + " insertado");
                 colaRecepcion.elimiinarInicio();
@@ -466,22 +471,26 @@ public class Funciones {
                 //Recibiendo imgs en ventanilla
 
                 if (cliente.getImg_color() > 0) {
+                    System.out.println("La "+ventanilla.getNumeroVentanilla()+" recibio una imagen");
 //                    System.out.println("Cliente " + cliente.getNombre_cliente() + " Insertando imagen a color");
-                    Imagen nuevaImg = new Imagen("Color", cliente.getId_cliente());
+                    Imagen nuevaImg = new Imagen("Color", cliente);
                     nuevaImg.setPasos(2);
                     pilaImagenes.insertarInicio(nuevaImg);
                     ventanilla.setListaImagenes(pilaImagenes);
                     cliente.setImg_color(cliente.getImg_color() - 1);
 
                 } else if (cliente.getImg_bw() > 0) {
+                    System.out.println("La "+ventanilla.getNumeroVentanilla()+" recibio una imagen");
 //                    System.out.println(cliente.getNombre_cliente() + " Insertando imagen BN");
-                    Imagen nuevaImg = new Imagen("BN", cliente.getId_cliente());
+                    Imagen nuevaImg = new Imagen("BN", cliente);
+                    nuevaImg.setPasos(1);
                     pilaImagenes.insertarInicio(nuevaImg);
                     ventanilla.setListaImagenes(pilaImagenes);
                     cliente.setImg_bw(cliente.getImg_bw() - 1);
 
                 }
                 if(cliente.getImg_color()==0 && cliente.getImg_bw()==0){
+                    System.out.println();
 
                     Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
                     ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
@@ -502,7 +511,12 @@ public class Funciones {
                     ventanilla.setCliente(null);
 //                    System.out.println("Se elimino el cliente nombre" + cliente.getNombre_cliente());
                     ventanilla.setListaImagenes(null);
+                    System.out.println("El cliente"+cliente.getNombre_cliente()+" sale de la "+ventanilla.getNumeroVentanilla()+
+                            "sus imagenes se envian a la cola de impresoras");
+
+                    colaImpresoras = pasoImpresora(colaImpresoras, colorDisponible, BNDisponible);
                     verColaImpresoras(colaImpresoras);
+
                     continue;
                 }
 
@@ -512,7 +526,7 @@ public class Funciones {
         }
 //            verListaVentanillas(listaVentanillas);
         verListaVentanillas(listaVentanillas);
-        menu(colaRecepcion, listaVentanillas, colaImpresoras);
+        menu(colaRecepcion, listaVentanillas, colaImpresoras, numeroPaso, colorDisponible, BNDisponible);
     }
 
     public void verColaImpresoras(ListaSimple colaImpresoras){
@@ -521,6 +535,60 @@ public class Funciones {
         Nodo auxColor = colaColor.getPrimero();
         System.out.println("Impresora Color: "+colaColor.getSize());
         System.out.println("Impresora BN: "+colaBN.getSize());
+    }
+
+    public ListaSimple pasoImpresora(ListaSimple colaImpresoras, boolean colorDisponible, boolean BNDisponible){
+        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
+        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
+
+        if(colaColor.getSize()>0){
+            Imagen imagen = (Imagen) colaColor.getPrimero().getDato();
+
+            if(imagen.getPasos()==2){
+                imagen.setPasos(1);
+            }else{
+                System.out.println("Se imprimio una imagen a color del cliente "+imagen.getCliente().getNombre_cliente());
+                colaColor.elimiinarInicio();
+                colaImpresoras = new ListaSimple();
+                colaImpresoras.insertarFinal(colaColor);
+                colaImpresoras.insertarFinal(colaBN);
+                if(colaColor.getSize()>0){
+                    Imagen imagen1 = (Imagen) colaColor.getPrimero().getDato();
+                    if(imagen1.getCliente() != imagen.getCliente()){
+                        imagen.getCliente().setTieneTodasSusImgs(true);
+                        System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
+                    }
+                }else {
+                    System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
+                }
+            }
+        }
+        if(colaBN.getSize()>0){
+            Imagen imagen = (Imagen) colaBN.getPrimero().getDato();
+            colaBN.elimiinarInicio();
+            colaImpresoras = new ListaSimple();
+            colaImpresoras.insertarFinal(colaColor);
+            colaImpresoras.insertarFinal(colaBN);
+            System.out.println("Se imprimio una imagen BN del cliente "+imagen.getCliente().getNombre_cliente());
+            if(colaBN.getSize()>0){
+                Imagen imagen1 = (Imagen) colaBN.getPrimero().getDato();
+                if(imagen1.getCliente().getNombre_cliente() != imagen.getCliente().getNombre_cliente()){
+                    imagen.getCliente().setTieneTodasSusImgs(true);
+                    System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
+
+                }
+
+            }else {
+                System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
+            }
+        }
+
+
+
+
+
+        return colaImpresoras;
+
     }
 
 

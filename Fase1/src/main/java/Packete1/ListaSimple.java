@@ -84,6 +84,7 @@ public class ListaSimple {
 //        return aux.getDato();
 //    }
     public Object eliminarCliente(int idCliente){
+        this.size-=1;
         Nodo aux = this.primero;
         Cliente cliente1 = (Cliente) aux.getDato();
         if (cliente1.getId_cliente() == idCliente){
@@ -141,6 +142,8 @@ public class ListaSimple {
 
     public void elimiinarInicio(){
         this.primero = this.primero.getSiguiente();
+        this.size-=1;
+
 
     }
 
