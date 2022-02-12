@@ -3,13 +3,21 @@ package Packete1;
 import com.google.gson.Gson;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Funciones {
+    private boolean colorDisponible = true;
+    private boolean BNDisponible = true;
+    private ListaSimple listaVentanillas = new ListaSimple();
+    private ListaSimple colaRecepcion = new ListaSimple();
+    private ListaSimple colaColor = new ListaSimple();
+    private ListaSimple colaBN = new ListaSimple();
+    private int numeroPaso = 0;
     //    private ListaSimple listaVentanillas = new ListaSimple();
+
+
     public String leerArchivo() {
         File archivo = null;
         FileReader fr = null;
@@ -33,11 +41,13 @@ public class Funciones {
             while ((linea = br.readLine()) != null) {
                 contenido += linea;
             }
-            System.out.println(contenido);
-            ListaSimple colaRecepcion = crearClientes(contenido);
-            ListaSimple listaVentanillas = crearVentanillas();
+//            System.out.println(contenido);
+//            ListaSimple colaRecepcion = crearClientes(contenido);
+//            ListaSimple listaVentanillas = crearVentanillas();
             ListaSimple colaImpresoras = new ListaSimple();
-            menu(colaRecepcion, listaVentanillas, colaImpresoras, 0, true, true);
+            crearClientes(contenido);
+            crearVentanillas();
+            menu();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -80,7 +90,7 @@ public class Funciones {
                 String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
 
                 Cliente nuevoCliente = new Cliente(id_cliente, nombre_cliente, img_color, img_bw, img_color, img_bw);
-                colaRecepcion.insertarFinal(nuevoCliente);
+                this.colaRecepcion.insertarFinal(nuevoCliente);
 //            System.out.println(nuevoCliente.mostrarDatos());
                 //Usar la siguiente sintaxis si no se saben las claves
 //            for(String keyA:keysA){
@@ -92,7 +102,7 @@ public class Funciones {
             }
 
             System.out.println("Clientes Cargados exitosamente");
-            verColaRecepcion(colaRecepcion);
+            verColaRecepcion();
 
         } catch (Exception e) {
             System.out.println("Error al cargar clientes");
@@ -166,10 +176,10 @@ public class Funciones {
         try {
             for (int i = 1; i <= numeroVentanillas; i++) {
                 Ventanilla nuevaVentanilla = new Ventanilla("Ventanilla" + i);
-                listaVentanillas.insertarFinalAbajo(nuevaVentanilla);
+                this.listaVentanillas.insertarFinal(nuevaVentanilla);
             }
             System.out.println("Ventanillas creadas exitosamente");
-            verListaVentanillas(listaVentanillas);
+            verListaVentanillas();
 //            ejecutarPaso(listaVentanillas);
 //            menu(null, null);
 
@@ -179,8 +189,7 @@ public class Funciones {
         return listaVentanillas;
     }
 
-    public void menu(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras, int numeroPaso,
-                     boolean colorDisponible, boolean BNDisponible) {
+    public void menu() {
         Scanner entradaEscaner = new Scanner(System.in);
         System.out.println("*****MENU*****");
         System.out.println("1. Parametros Iniciales");
@@ -196,7 +205,7 @@ public class Funciones {
                 leerArchivo();
                 break;
             case "2":
-                ejecutarPaso(colaRecepcion, listaVentanillas, colaImpresoras, numeroPaso, colorDisponible, BNDisponible);
+                ejecutarPaso();
                 break;
             case "6":
                 break;
@@ -208,13 +217,13 @@ public class Funciones {
         System.out.println();
     }
 
-    public void verColaRecepcion(ListaSimple colaRecepcion) {
+    public void verColaRecepcion() {
         try {
             String ruta = "colaRecepcion.dot";
             StringBuilder nodos = new StringBuilder();
             StringBuilder conectarNodos = new StringBuilder();
             nodos.append("digraph ejemplo {\nnode[shape=box]\nedge[arrowhead=none]\n");
-            Nodo aux = colaRecepcion.getPrimero();
+            Nodo aux = this.colaRecepcion.getPrimero();
             int id = 0;
             int idAnterior = 0;
             while (aux != null) {
@@ -263,7 +272,7 @@ public class Funciones {
 
     }
 
-    public void verListaVentanillas(ListaSimple listaVentanillas) {
+    public void verListaVentanillas() {
         try {
             String ruta = "listaVentanillas.dot";
             StringBuilder nodos = new StringBuilder();
@@ -271,7 +280,7 @@ public class Funciones {
             StringBuilder rank = new StringBuilder();
 
             nodos.append("digraph listaVentanillas {\nnode[shape=box]\nedge[arrowhead=none]\n");
-            Nodo aux = listaVentanillas.getPrimeroAbajo();
+            Nodo aux = this.listaVentanillas.getPrimero();
             int id = 0;
             int idAnterior = 0;
             boolean esPrimeraVentanilla = true;
@@ -312,11 +321,11 @@ public class Funciones {
 
                 }
                 esPrimeraVentanilla=false;
-                aux = aux.getSiguienteAbajo();
+                aux = aux.getSiguiente();
 
             }
 //            aux = listaVentanillas.getPrimero();
-//            Nodo aux2 = listaVentanillas.getPrimeroAbajo();
+//            Nodo aux2 = listaVentanillas.getPrimero();
 ////            System.out.println(aux.getDato());
 //            while (aux != null && aux2 != null) {
 //                Cliente cliente = (Cliente) aux.getDato();
@@ -355,11 +364,11 @@ public class Funciones {
 //
 //
 //                aux = aux.getSiguiente();
-//                aux2 = aux2.getSiguienteAbajo();
+//                aux2 = aux2.getSiguiente();
 //
 //
 //            }
-//            aux = listaVentanillas.getPrimeroAbajo();
+//            aux = listaVentanillas.getPrimero();
 //            aux2 = listaVentanillas.getPrimero();
 //            while (aux != null && aux2 != null) {
 //                Ventanilla ventanilla = (Ventanilla) aux.getDato();
@@ -415,39 +424,38 @@ public class Funciones {
         }
     }
 
-    public void ejecutarPaso(ListaSimple colaRecepcion, ListaSimple listaVentanillas, ListaSimple colaImpresoras,
-                             int numeroPaso, boolean colorDisponible, boolean BNDisponible) {
-        numeroPaso++;
+    public void ejecutarPaso() {
+        this.numeroPaso++;
         //El error esta en este metodo
 //            Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
         //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
 //            colaRecepcion.elimiinarInicio();
-        Nodo aux = listaVentanillas.getPrimeroAbajo();
+        Nodo aux = this.listaVentanillas.getPrimero();
 //            Nodo aux2 = listaVentanillas.getPrimero();
         /*Lo primero es recorrer las ventanillas y ver cual esta vacia
          */
-        if (colaImpresoras.getPrimero()==null){
-            ListaSimple colaColor = new ListaSimple();
-            colaImpresoras.insertarFinal(colaColor);
-            ListaSimple colaBN = new ListaSimple();
-            colaImpresoras.insertarFinal(colaBN);
-        }
+//        if (colaImpresoras.getPrimero()==null){
+//            ListaSimple colaColor = new ListaSimple();
+//            colaImpresoras.insertarFinal(colaColor);
+//            ListaSimple colaBN = new ListaSimple();
+//            colaImpresoras.insertarFinal(colaBN);
+//        }
         boolean unSoloPaso = true;
         boolean unSoloCliente = true;
-        System.out.println("-".repeat(10)+"PASO "+numeroPaso+"-".repeat(10));
+        System.out.println("-".repeat(10)+"PASO "+this.numeroPaso+"-".repeat(10));
         while (aux != null) {
             Ventanilla ventanilla = (Ventanilla) aux.getDato();
-            if (ventanilla.isEstaDisponible() && colaRecepcion.getPrimero() != null && unSoloCliente) {
+            if (ventanilla.isEstaDisponible() && this.colaRecepcion.getPrimero() != null && unSoloCliente) {
                 unSoloCliente=false;
-                Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
+                Cliente clienteAInsertar = (Cliente) this.colaRecepcion.getPrimero().getDato();
                 System.out.println(clienteAInsertar.getNombre_cliente()+" Ingresa a la "+ventanilla.getNumeroVentanilla());
 //                System.out.println(ventanilla.getNumeroVentanilla() + " disponible");
 //                System.out.println("Cliente " + clienteAInsertar.getNombre_cliente() + " insertado");
-                colaRecepcion.elimiinarInicio();
+                this.colaRecepcion.elimiinarInicio();
 //                    listaVentanillas.insertarFinal(clienteAInsertar);
                 ventanilla.setCliente(clienteAInsertar);
                 ventanilla.setEstaDisponible(false);
-                aux = aux.getSiguienteAbajo();
+                aux = aux.getSiguiente();
                 continue;
             }
 
@@ -456,7 +464,7 @@ public class Funciones {
 //                System.out.println("Con " + ventanilla.getCliente().getImg_color() + " " + ventanilla.getCliente().getImg_bw());
                 //Aqui recorro los clientes en las ventanillas
                 if (ventanilla.getCliente()==null){
-                    aux = aux.getSiguienteAbajo();
+                    aux = aux.getSiguiente();
                     continue;
                 }
                 Cliente cliente = (Cliente) ventanilla.getCliente();
@@ -488,118 +496,85 @@ public class Funciones {
                     ventanilla.setListaImagenes(pilaImagenes);
                     cliente.setImg_bw(cliente.getImg_bw() - 1);
 
-                }
-                if(cliente.getImg_color()==0 && cliente.getImg_bw()==0){
-                    System.out.println();
-
-                    Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
-                    ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
-                    ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
-                    while (auxImg!=null){
-                        Imagen imagen = (Imagen) auxImg.getDato();
-                        if(imagen.getTipo()=="Color"){
-                            colaColor.insertarFinal(imagen);
-                        }else if(imagen.getTipo()=="BN"){
-                            colaBN.insertarFinal(imagen);
+                }else{
+                        Nodo auxImg = ventanilla.getListaImagenes().getPrimero();
+                        while (auxImg!=null){
+                            Imagen imagen = (Imagen) auxImg.getDato();
+                            if(imagen.getTipo()=="Color"){
+                                this.colaColor.insertarFinal(imagen);
+                            }else if(imagen.getTipo()=="BN"){
+                                this.colaBN.insertarFinal(imagen);
+                            }
+                            auxImg = auxImg.getSiguiente();
                         }
-                        auxImg = auxImg.getSiguiente();
-                    }
-                    colaImpresoras.insertarFinal(colaColor);
-                    colaImpresoras.insertarFinal(colaBN);
+//                    colaImpresoras.insertarFinal(colaColor);
+//                    colaImpresoras.insertarFinal(colaBN);
 //                    System.out.println(ventanilla.getNumeroVentanilla() + " disponible");
-                    ventanilla.setEstaDisponible(true);
-                    ventanilla.setCliente(null);
+                        ventanilla.setEstaDisponible(true);
+                        ventanilla.setCliente(null);
 //                    System.out.println("Se elimino el cliente nombre" + cliente.getNombre_cliente());
-                    ventanilla.setListaImagenes(null);
-                    System.out.println("El cliente"+cliente.getNombre_cliente()+" sale de la "+ventanilla.getNumeroVentanilla()+
-                            "sus imagenes se envian a la cola de impresoras");
+                        ventanilla.setListaImagenes(null);
+                        System.out.println("El cliente"+cliente.getNombre_cliente()+" sale de la "+ventanilla.getNumeroVentanilla()+
+                                " sus imagenes se envian a la cola de impresoras");
 
-                    colaImpresoras = pasoImpresora(colaImpresoras, colorDisponible, BNDisponible);
-                    verColaImpresoras(colaImpresoras);
+//                    colaImpresoras = pasoImpresora(colaImpresoras);
+//                    verColaImpresoras(colaImpresoras);
+//                        pasoImpresora();
+//                        verColaImpresoras();
+                        continue;
+                    }
 
-                    continue;
-                }
 
-            aux = aux.getSiguienteAbajo();
+
+            aux = aux.getSiguiente();
 
 
         }
 //            verListaVentanillas(listaVentanillas);
-        verListaVentanillas(listaVentanillas);
-        menu(colaRecepcion, listaVentanillas, colaImpresoras, numeroPaso, colorDisponible, BNDisponible);
+        verListaVentanillas();
+        menu();
     }
 
-    public void verColaImpresoras(ListaSimple colaImpresoras){
-        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
-        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
-        Nodo auxColor = colaColor.getPrimero();
-        System.out.println("Impresora Color: "+colaColor.getSize());
-        System.out.println("Impresora BN: "+colaBN.getSize());
+    public void verColaImpresoras(){
+//        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
+//        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
+        Nodo auxColor = this.colaColor.getPrimero();
+        System.out.println("Impresora Color: "+this.colaColor.getSize());
+        System.out.println("Impresora BN: "+this.colaBN.getSize());
     }
 
-    public ListaSimple pasoImpresora(ListaSimple colaImpresoras, boolean colorDisponible, boolean BNDisponible){
-        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
-        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
-
-        if(colaColor.getSize()>0){
-            Imagen imagen = (Imagen) colaColor.getPrimero().getDato();
-
-            if(imagen.getPasos()==2){
-                imagen.setPasos(1);
-            }else{
-                System.out.println("Se imprimio una imagen a color del cliente "+imagen.getCliente().getNombre_cliente());
-                colaColor.elimiinarInicio();
-                colaImpresoras = new ListaSimple();
-                colaImpresoras.insertarFinal(colaColor);
-                colaImpresoras.insertarFinal(colaBN);
-                if(colaColor.getSize()>0){
-                    Imagen imagen1 = (Imagen) colaColor.getPrimero().getDato();
-                    if(imagen1.getCliente() != imagen.getCliente()){
-                        imagen.getCliente().setTieneTodasSusImgs(true);
-                        System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
-                    }
+    public ListaSimple pasoImpresora(){
+//        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
+//        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
+        if (this.colorDisponible){
+            if (this.colaColor.getSize()>0){
+                Imagen imagen = (Imagen) colaColor.getPrimero().getDato();
+                if(imagen.getPasos()==2){
+                    imagen.setPasos(1);
                 }else {
-                    System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
+                    System.out.println("Se imprimio una imagena a color del cliente "+imagen.getCliente().getNombre_cliente());
+                    if(this.colaColor.getSize()>0){
+                        Imagen imagen1 = (Imagen) colaColor.getPrimero().getSiguiente().getDato();
+                        //Si la siguinente imagen ya no es del mismo cliente, ya tiene todas sus imagenes
+                        if (imagen1.getCliente() != imagen.getCliente()){
+                            System.out.println("El cliente "+imagen.getCliente().getNombre_cliente()+" recibió todas sus imagenes");
+                        }
+                    }
                 }
             }
         }
-        if(colaBN.getSize()>0){
-            Imagen imagen = (Imagen) colaBN.getPrimero().getDato();
-            colaBN.elimiinarInicio();
-            colaImpresoras = new ListaSimple();
-            colaImpresoras.insertarFinal(colaColor);
-            colaImpresoras.insertarFinal(colaBN);
-            System.out.println("Se imprimio una imagen BN del cliente "+imagen.getCliente().getNombre_cliente());
-            if(colaBN.getSize()>0){
-                Imagen imagen1 = (Imagen) colaBN.getPrimero().getDato();
-                if(imagen1.getCliente().getNombre_cliente() != imagen.getCliente().getNombre_cliente()){
-                    imagen.getCliente().setTieneTodasSusImgs(true);
-                    System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
-
-                }
-
-            }else {
-                System.out.println("Se terminaron de imprimir las imagenes del cliente "+imagen.getCliente().getNombre_cliente());
-            }
-        }
-
-
-
-
-
-        return colaImpresoras;
-
+        return this.colaBN;
     }
 
 
 
     //Cambiando disponibilidad de las ventanillas
-//        Nodo aux = listaVentanillas.getPrimeroAbajo();
+//        Nodo aux = listaVentanillas.getPrimero();
 //        while (aux!=null){
 //            Ventanilla ventanilla = (Ventanilla) aux.getDato();
 //            System.out.println(ventanilla.isEstaDisponible());
 //            ventanilla.setEstaDisponible(false);
-//            aux = aux.getSiguienteAbajo();
+//            aux = aux.getSiguiente();
 //        }
 
 

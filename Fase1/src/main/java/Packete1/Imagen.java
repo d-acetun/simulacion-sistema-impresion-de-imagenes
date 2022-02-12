@@ -2,7 +2,6 @@ package Packete1;
 
 public class Imagen {
     private String tipo;
-    private int idCliente;
     private int pasos;
     private Cliente cliente;
 
@@ -21,13 +20,6 @@ public class Imagen {
         this.tipo = tipo;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
 
     public int getPasos() {
         return pasos;

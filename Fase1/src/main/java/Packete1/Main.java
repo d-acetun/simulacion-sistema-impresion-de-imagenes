@@ -5,7 +5,7 @@ public class Main {
         Funciones inicio = new Funciones();
 //        inicio.leerArchivo();
         ListaSimple colaImpresoras = new ListaSimple();
-        inicio.menu(null, null, colaImpresoras, 0, true, true);
+        inicio.menu();
 //        inicio.crearGraphviz();
 //        inicio.listas();
 
