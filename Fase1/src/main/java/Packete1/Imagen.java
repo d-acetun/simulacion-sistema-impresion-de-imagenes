@@ -4,12 +4,14 @@ public class Imagen {
     private String tipo;
     private int pasos;
     private Cliente cliente;
+    private boolean sePuedeImprimir;
 
     public Imagen(String tipo, Cliente cliente) {
         this.tipo = tipo;
 //        this.idCliente = idCliente;
         this.pasos = 0;
         this.cliente = cliente;
+        this.sePuedeImprimir = false;
     }
 
     public String getTipo() {
@@ -35,5 +37,13 @@ public class Imagen {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public boolean isSePuedeImprimir() {
+        return sePuedeImprimir;
+    }
+
+    public void setSePuedeImprimir(boolean sePuedeImprimir) {
+        this.sePuedeImprimir = sePuedeImprimir;
     }
 }
