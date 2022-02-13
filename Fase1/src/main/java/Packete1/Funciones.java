@@ -465,8 +465,7 @@ public class Funciones {
         if (this.colaColor.getSize()>0 || this.colaBN.getSize()>0){
             pasoImpresora();
             verClientesEnEspera();
-            verClientesEnEspera();
-            unSoloPaso = false;
+            verColaImpresoras();
         }
         verListaVentanillas();
         menu();
@@ -477,49 +476,37 @@ public class Funciones {
             String ruta = "colaImpresoras.dot";
             StringBuilder nodos = new StringBuilder();
             StringBuilder conectarNodos = new StringBuilder();
-            StringBuilder rank = new StringBuilder();
             nodos.append("digraph colaImpresoras {\nnode[shape=box]\nedge[arrowhead=none]\n");
-            Nodo aux = this.clientesEnEspera.getPrimero();
             int id = 0;
             int idAnterior = id;
-            int idClienteAnterior = id;
             boolean esPrimerCliente = true;
+            nodos.append(String.format("%d [label=\"IMPRESORA\\nColor\"]\n", id));
+            int idColor = id;
+            idAnterior = id;
+            id++;
+            Nodo aux = this.colaColor.getPrimero();
             while (aux!=null){
-                ListaSimple listaClientesImagenes = (ListaSimple) aux.getDato();
-                Nodo aux2 = listaClientesImagenes.getPrimero();
-                //Creamos el nodo del cliente
-                Cliente cliente = (Cliente) aux2.getDato();
-                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
-                        cliente.getNombre_cliente(), cliente.getImgColorConstante(),
-                        cliente.getImgBNConstante()
-                ));
-
-                if(!esPrimerCliente){
-                    conectarNodos.append(idClienteAnterior+"->"+id+"\n");
-                    rank.append(String.format("{rank=same; %d; %d}\n", idClienteAnterior, id));
-                }else {
-                    esPrimerCliente=false;
-                }
-                idClienteAnterior = id;
+                nodos.append(String.format("%d [label=\"IMG\\nCOLOR\"]\n", id));
+                conectarNodos.append(idAnterior+"->"+id+"\n");
                 idAnterior = id;
                 id++;
-                //Aqui empiezan las imagenes
-                aux2 = aux2.getSiguiente();
-                while (aux2!=null){
-                    Imagen imagen = (Imagen) aux2.getDato();
-                    nodos.append(String.format("%d [label=%s]\n", id, imagen.getTipo()));
-                    conectarNodos.append(idAnterior+"->"+id+"\n");
-                    idAnterior=id;
-                    id++;
-                    aux2=aux2.getSiguiente();
-                }
-                aux = aux.getSiguiente();
+                aux=aux.getSiguiente();
             }
-
-
+            nodos.append(String.format("%d [label=\"IMPRESORA\\nB Y N\"]\n", id));
+            int idBN = id;
+            idAnterior = id;
+            id++;
+            aux = this.colaBN.getPrimero();
+            while (aux!=null){
+                nodos.append(String.format("%d [label=\"IMG\\nBN\"]\n", id));
+                conectarNodos.append(idAnterior+"->"+id+"\n");
+                idAnterior = id;
+                id++;
+                aux=aux.getSiguiente();
+            }
             nodos.append(conectarNodos);
-            nodos.append(rank);
-            nodos.append("rankdir=TB\n}");
+            nodos.append(String.format("{rank=same; %d; %d}\n", idColor, idBN));
+            nodos.append("rankdir=LR\n}");
 
             File file = new File(ruta);
             // Si el archivo no existe es creado
@@ -536,9 +523,9 @@ public class Funciones {
         String parametros[] = new String[5];
         parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
         parametros[1] = "-Tpng";
-        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\clientesEnEspera.dot";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\colaImpresoras.dot";
         parametros[3] = "-o";
-        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\clientesEnEspera.png";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\colaImpresoras.png";
 
         try {
             Process proceso = Runtime.getRuntime().exec(parametros, null);

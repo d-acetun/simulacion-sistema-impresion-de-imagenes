@@ -1,0 +1,18 @@
+digraph colaImpresoras {
+node[shape=box]
+edge[arrowhead=none]
+0 [label="IMPRESORA\nColor"]
+1 [label="IMG\nCOLOR"]
+2 [label="IMG\nCOLOR"]
+3 [label="IMPRESORA\nB Y N"]
+4 [label="IMG\nBN"]
+5 [label="IMG\nBN"]
+6 [label="IMG\nBN"]
+0->1
+1->2
+3->4
+4->5
+5->6
+{rank=same; 0; 3}
+rankdir=LR
+}
