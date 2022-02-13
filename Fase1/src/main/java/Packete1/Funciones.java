@@ -473,20 +473,90 @@ public class Funciones {
     }
 
     public void verColaImpresoras(){
-//        ListaSimple colaColor = (ListaSimple) colaImpresoras.getPrimero().getDato();
-//        ListaSimple colaBN = (ListaSimple) colaImpresoras.getPrimero().getSiguiente().getDato();
-        Nodo auxColor = this.colaColor.getPrimero();
-        System.out.println("Impresora Color: "+this.colaColor.getSize());
-        System.out.println("Impresora BN: "+this.colaBN.getSize());
+        try{
+            String ruta = "colaImpresoras.dot";
+            StringBuilder nodos = new StringBuilder();
+            StringBuilder conectarNodos = new StringBuilder();
+            StringBuilder rank = new StringBuilder();
+            nodos.append("digraph colaImpresoras {\nnode[shape=box]\nedge[arrowhead=none]\n");
+            Nodo aux = this.clientesEnEspera.getPrimero();
+            int id = 0;
+            int idAnterior = id;
+            int idClienteAnterior = id;
+            boolean esPrimerCliente = true;
+            while (aux!=null){
+                ListaSimple listaClientesImagenes = (ListaSimple) aux.getDato();
+                Nodo aux2 = listaClientesImagenes.getPrimero();
+                //Creamos el nodo del cliente
+                Cliente cliente = (Cliente) aux2.getDato();
+                nodos.append(String.format("%d [label=\"%s\\nIMG C %d\\nIMG BN %d\"]\n", id,
+                        cliente.getNombre_cliente(), cliente.getImgColorConstante(),
+                        cliente.getImgBNConstante()
+                ));
+
+                if(!esPrimerCliente){
+                    conectarNodos.append(idClienteAnterior+"->"+id+"\n");
+                    rank.append(String.format("{rank=same; %d; %d}\n", idClienteAnterior, id));
+                }else {
+                    esPrimerCliente=false;
+                }
+                idClienteAnterior = id;
+                idAnterior = id;
+                id++;
+                //Aqui empiezan las imagenes
+                aux2 = aux2.getSiguiente();
+                while (aux2!=null){
+                    Imagen imagen = (Imagen) aux2.getDato();
+                    nodos.append(String.format("%d [label=%s]\n", id, imagen.getTipo()));
+                    conectarNodos.append(idAnterior+"->"+id+"\n");
+                    idAnterior=id;
+                    id++;
+                    aux2=aux2.getSiguiente();
+                }
+                aux = aux.getSiguiente();
+            }
+
+
+            nodos.append(conectarNodos);
+            nodos.append(rank);
+            nodos.append("rankdir=TB\n}");
+
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(nodos.toString());
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String parametros[] = new String[5];
+        parametros[0] = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+        parametros[1] = "-Tpng";
+        parametros[2] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\clientesEnEspera.dot";
+        parametros[3] = "-o";
+        parametros[4] = "C:\\Users\\diego\\Desktop\\USAC\\EstructurasDeDatos\\EDD_UDRAWING_FASE_201903909\\Fase1\\clientesEnEspera.png";
+
+        try {
+            Process proceso = Runtime.getRuntime().exec(parametros, null);
+            proceso.waitFor();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("errror");
+            e.printStackTrace();
+        }
     }
 
     public void pasoImpresora() {
-        Imagen imagen = null;
+        Imagen imagenColor = null;
+        Imagen imagenBN = null;
         boolean yaSeLlamoMetodo = false;
         if (this.colorDisponible) {
             if (this.colaColor.getSize() > 0) {
-                imagen = (Imagen) this.colaColor.getPrimero().getDato();
-                if(!imagen.isSePuedeImprimir()){
+                imagenColor = (Imagen) this.colaColor.getPrimero().getDato();
+                if(!imagenColor.isSePuedeImprimir()){
                     //Con este metodo se obliga a que tenga que pasar un paso antes de que se puedan imprimir
                     //las imagenes
                     pasoParaImprimir();
@@ -511,9 +581,10 @@ public class Funciones {
             pasoParaImprimir();
             yaSeLlamoMetodo = true;
             this.colorDisponible = true;
-            imagen = (Imagen) colaColor.getPrimero().getDato();
-            imagen.setPasos(1);
-            System.out.println("Se imprimio una imagena a color del cliente " + imagen.getCliente().getNombre_cliente());
+            imagenColor = (Imagen) colaColor.getPrimero().getDato();
+            imagenColor.setPasos(1);
+            imagenColor.getCliente().setImg_color(imagenColor.getCliente().getImg_color()+1);
+            System.out.println("Se imprimio una imagen a color del cliente " + imagenColor.getCliente().getNombre_cliente());
 //            ListaSimple listaClienteImagenes = (ListaSimple) this.clientesEnEspera.getPrimero().getDato();
 //            Nodo aux = listaClienteImagenes.getPrimero();
             Nodo aux = this.clientesEnEspera.getPrimero();
@@ -522,27 +593,18 @@ public class Funciones {
                 ListaSimple listaClienteImagenes = (ListaSimple) aux.getDato();
                 Cliente cliente = (Cliente) listaClienteImagenes.getPrimero().getDato();
                 //ultimo que se trabajó, hacer metodo para graficar clientes en espera
-                if (cliente == imagen.getCliente()){
-                    listaClienteImagenes.insertarFinal(imagen);
+                if (cliente == imagenColor.getCliente()){
+                    listaClienteImagenes.insertarFinal(imagenColor);
                     break;
                 }
                 aux = aux.getSiguiente();
             }
             colaColor.elimiinarInicio();
-
-            if(this.colaColor.getSize()<=0 && colaBN.getSize()<=0){
-                imagen.getCliente().setTieneTodasSusImgs(true);
-                System.out.println("El cliente " + imagen.getCliente().getNombre_cliente() + " recibió todas sus imagenes");
-                return;
-            }
-
-
-
         }
 
         if(this.colaBN.getSize()>0){
-            imagen = (Imagen) colaBN.getPrimero().getDato();
-            if(!imagen.isSePuedeImprimir()){
+            imagenBN = (Imagen) colaBN.getPrimero().getDato();
+            if(!imagenBN.isSePuedeImprimir()){
                 pasoParaImprimir();
                 return;
             }
@@ -552,27 +614,37 @@ public class Funciones {
 //            ListaSimple listaClienteImagenes = (ListaSimple) this.clientesEnEspera.getPrimero().getDato();
 //            Nodo aux = listaClienteImagenes.getPrimero();
             Nodo aux = this.clientesEnEspera.getPrimero();
-            System.out.println("Se imprimio una imagen BN del cliente "+imagen.getCliente().getNombre_cliente());
+            imagenBN.getCliente().setImg_bw( imagenBN.getCliente().getImg_bw()+1 );
+            System.out.println("Se imprimio una imagen BN del cliente "+imagenBN.getCliente().getNombre_cliente());
             //Se recorre la lsiat de clientes en espera para saber a quien corresponde la imagen
             while (aux!=null){
                 ListaSimple listaClienteImagenes = (ListaSimple) aux.getDato();
                 Cliente cliente = (Cliente) listaClienteImagenes.getPrimero().getDato();
                 //ultimo que se trabajó, hacer metodo para graficar clientes en espera
-                if (cliente == imagen.getCliente()){
-                    listaClienteImagenes.insertarFinal(imagen);
+                if (cliente == imagenBN.getCliente()){
+                    listaClienteImagenes.insertarFinal(imagenBN);
                     break;
                 }
                 aux = aux.getSiguiente();
             }
-            colaBN.elimiinarInicio();
 
-            if(this.colaColor.getSize()<=0 && colaBN.getSize()<=0){
-                imagen.getCliente().setTieneTodasSusImgs(true);
-                System.out.println("El cliente " + imagen.getCliente().getNombre_cliente() + " recibió todas sus imagenes");
-                return;
+            colaBN.elimiinarInicio();
+        }
+        if(imagenColor!=null){
+            if(imagenColor.getCliente().getImg_color() == imagenColor.getCliente().getImgColorConstante() && imagenColor.getCliente()
+                    .getImg_bw() == imagenColor.getCliente().getImgBNConstante()){
+                System.out.println("El cliente "+imagenColor.getCliente().getNombre_cliente()+" recibio todas sus imagenes");
+
             }
         }
 
+        if(imagenBN!=null && imagenBN.getCliente()!=imagenColor.getCliente()){
+            if(imagenBN.getCliente().getImg_color() == imagenBN.getCliente().getImgColorConstante() && imagenBN.getCliente()
+                    .getImg_bw() == imagenBN.getCliente().getImgBNConstante()){
+                System.out.println("El cliente "+imagenBN.getCliente().getNombre_cliente()+" recibio todas sus imagenes");
+
+            }
+        }
 
     }
 
@@ -593,6 +665,7 @@ public class Funciones {
             aux=aux.getSiguiente();
         }
     }
+
     public void verClientesEnEspera(){
         try{
         String ruta = "clientesEnEspera.dot";
