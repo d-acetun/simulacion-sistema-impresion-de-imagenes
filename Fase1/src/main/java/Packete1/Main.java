@@ -25,7 +25,6 @@ public class Main {
         l2.insertarFinal(c1);
         l3.insertarFinal(c2);
         l4.insertarFinal(c3);
-
         l.insertarFinal(l1);
         l.insertarFinal(l2);
         l.insertarFinal(l3);
@@ -35,6 +34,8 @@ public class Main {
         l.eliminarEspera(c0);
         l.insertarFinal(l1);
         l.eliminarEspera(c2);
+//        l.insertarFinal(l1);
+//        l.eliminarEspera(c0);
         Nodo aux = l.getPrimero();
         while (aux!=null){
             ListaSimple jj = (ListaSimple) aux.getDato();

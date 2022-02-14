@@ -1,10 +1,25 @@
 digraph ClientesEnEspera {
 node[shape=box]
 edge[arrowhead=none]
-0 [label="Penn Blaszczynski\nIMG C 1\nIMG BN 1"]
+0 [label="Hewie Rizzini\nIMG C 1\nIMG BN 2"]
 1 [label=BN]
-2 [label=Color]
+2 [label=BN]
+3 [label="Casper Sambells\nIMG C 1\nIMG BN 1"]
+4 [label=BN]
+5 [label="Juan Ortiz\nIMG C 1\nIMG BN 1"]
+6 [label=BN]
+7 [label="Juan Ortiz\nIMG C 1\nIMG BN 1"]
+8 [label=BN]
 0->1
 1->2
+0->3
+3->4
+3->5
+5->6
+5->7
+7->8
+{rank=same; 0; 3}
+{rank=same; 3; 5}
+{rank=same; 5; 7}
 rankdir=TB
 }

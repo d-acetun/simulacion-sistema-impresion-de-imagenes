@@ -58,20 +58,24 @@ public class ListaSimple {
     public Object eliminarEspera(Cliente cliente){
 //        this.size-=1;
         Nodo aux = this.primero;
-        ListaSimple listaClientesImgs = (ListaSimple) aux.getDato();
-        Cliente cliente1 = (Cliente) listaClientesImgs.primero.getDato();
-        if (cliente1 == cliente){
-//            System.out.println(cliente1.getNombre_cliente()+" ELIMINADO");
-            elimiinarInicio();
-            return aux.getDato();
-        }
-//        System.out.println("sigue");
+//        ListaSimple listaClientesImgs = (ListaSimple) aux.getDato();
+//        Cliente cliente1 = (Cliente) listaClientesImgs.primero.getDato();
+//        if (cliente1 == cliente){
+////            System.out.println(cliente1.getNombre_cliente()+" ELIMINADO");
+//            elimiinarInicio();
+//            return aux.getDato();
+//        }
+////        System.out.println("sigue");
         Nodo anterior = aux;
         while (aux != null){
-            listaClientesImgs = (ListaSimple) aux.getDato();
-            cliente1 = (Cliente) listaClientesImgs.getPrimero().getDato();
+            ListaSimple listaClientesImgs = (ListaSimple) aux.getDato();
+            Cliente cliente1 = (Cliente) listaClientesImgs.getPrimero().getDato();
             if (cliente1 == cliente){
 //                System.out.println(cliente1.getNombre_cliente()+" ELIMINADO");
+                if(aux == this.primero){
+                    elimiinarInicio();
+                    return aux.getDato();
+                }
                 anterior.setSiguiente(aux.getSiguiente());
                 this.size-=1;
                 return aux.getDato();
