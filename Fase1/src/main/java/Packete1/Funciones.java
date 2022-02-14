@@ -15,6 +15,7 @@ public class Funciones {
     private final ListaSimple colaColor = new ListaSimple();
     private final ListaSimple colaBN = new ListaSimple();
     private final ListaSimple clientesEnEspera = new ListaSimple();
+    private final ListaSimple clientesAtendidos = new ListaSimple();
 //    private Cliente clienteEnEspera = null;
     private int numeroPaso = 0;
     //    private ListaSimple listaVentanillas = new ListaSimple();
@@ -358,8 +359,40 @@ public class Funciones {
         }
     }
 
+    public void verClientesAtendidos(){
+        Nodo aux = this.clientesAtendidos.getPrimero();
+        System.out.println("LISTA DE CLIENTES ATENDIDOS");
+        while (aux!=null){
+            Cliente cliente = (Cliente) aux.getDato();
+            System.out.println(cliente.getNombre_cliente());
+            aux = aux.getSiguiente();
+        }
+    }
+
+    public void espera(){
+        Nodo aux = this.clientesEnEspera.getPrimero();
+        System.out.println("CLIENTES EN ESPERA");
+        while (aux!=null){
+            ListaSimple lis = (ListaSimple) aux.getDato();
+            Cliente cliente = (Cliente) lis.getPrimero().getDato();
+            System.out.println(cliente.getNombre_cliente());
+            aux = aux.getSiguiente();
+        }
+    }
     public void ejecutarPaso() {
         this.numeroPaso++;
+        Nodo aux3 = this.clientesEnEspera.getPrimero();
+        while (aux3!=null){
+            ListaSimple listaClientesImgs = (ListaSimple) aux3.getDato();
+            Cliente cliente = (Cliente) listaClientesImgs.getPrimero().getDato();
+            if(cliente.isTieneTodasSusImgs()){
+                System.out.println("El cliente "+cliente.getNombre_cliente()+" ya posee todas sus imagenes");
+                this.clientesAtendidos.insertarFinal(cliente);
+                this.clientesEnEspera.eliminarEspera(cliente);
+            }
+            aux3 = aux3.getSiguiente();
+        }
+
         //El error esta en este metodo
 //            Cliente clienteAInsertar = (Cliente) colaRecepcion.getPrimero().getDato();
         //Eliminamos el cliente de la cola de recepcion y se inserta en la lista de ventanillas
@@ -467,6 +500,8 @@ public class Funciones {
             verClientesEnEspera();
             verColaImpresoras();
         }
+        verClientesAtendidos();
+        espera();
         verListaVentanillas();
         menu();
     }
@@ -552,16 +587,6 @@ public class Funciones {
                 pasoParaImprimir();
                 yaSeLlamoMetodo = true;
                 this.colorDisponible = false;
-//                Imagen imagen = (Imagen) colaColor.getPrimero().getDato();
-//                imagen.setPasos(1);
-//                System.out.println("Se imprimio una imagena a color del cliente " + imagen.getCliente().getNombre_cliente());
-//                if (this.colaColor.getSize() > 0) {
-//                    Imagen imagen1 = (Imagen) colaColor.getPrimero().getSiguiente().getDato();
-//                    //Si la siguinente imagen ya no es del mismo cliente, ya tiene todas sus imagenes
-//                    if (imagen1.getCliente() != imagen.getCliente()) {
-//                        System.out.println("El cliente " + imagen.getCliente().getNombre_cliente() + " recibió todas sus imagenes");
-//                    }
-//                }
             }
 
         } else {
@@ -572,14 +597,11 @@ public class Funciones {
             imagenColor.setPasos(1);
             imagenColor.getCliente().setImg_color(imagenColor.getCliente().getImg_color()+1);
             System.out.println("Se imprimio una imagen a color del cliente " + imagenColor.getCliente().getNombre_cliente());
-//            ListaSimple listaClienteImagenes = (ListaSimple) this.clientesEnEspera.getPrimero().getDato();
-//            Nodo aux = listaClienteImagenes.getPrimero();
             Nodo aux = this.clientesEnEspera.getPrimero();
             //Se recorre la lsiat de clientes en espera para saber a quien corresponde la imagen
             while (aux!=null){
                 ListaSimple listaClienteImagenes = (ListaSimple) aux.getDato();
                 Cliente cliente = (Cliente) listaClienteImagenes.getPrimero().getDato();
-                //ultimo que se trabajó, hacer metodo para graficar clientes en espera
                 if (cliente == imagenColor.getCliente()){
                     listaClienteImagenes.insertarFinal(imagenColor);
                     break;
@@ -598,8 +620,6 @@ public class Funciones {
             if(!yaSeLlamoMetodo){
                 pasoParaImprimir();
             }
-//            ListaSimple listaClienteImagenes = (ListaSimple) this.clientesEnEspera.getPrimero().getDato();
-//            Nodo aux = listaClienteImagenes.getPrimero();
             Nodo aux = this.clientesEnEspera.getPrimero();
             imagenBN.getCliente().setImg_bw( imagenBN.getCliente().getImg_bw()+1 );
             System.out.println("Se imprimio una imagen BN del cliente "+imagenBN.getCliente().getNombre_cliente());
@@ -618,16 +638,18 @@ public class Funciones {
             colaBN.elimiinarInicio();
         }
         if(imagenColor!=null){
-            if(imagenColor.getCliente().getImg_color() == imagenColor.getCliente().getImgColorConstante() && imagenColor.getCliente()
-                    .getImg_bw() == imagenColor.getCliente().getImgBNConstante()){
+            if(imagenColor.getCliente().getImg_color() == imagenColor.getCliente().getImgColorConstante() &&
+                    imagenColor.getCliente().getImg_bw() == imagenColor.getCliente().getImgBNConstante()){
+                imagenBN.getCliente().setTieneTodasSusImgs(true);
                 System.out.println("El cliente "+imagenColor.getCliente().getNombre_cliente()+" recibio todas sus imagenes");
 
             }
         }
 
         if(imagenBN!=null && imagenBN.getCliente()!=imagenColor.getCliente()){
-            if(imagenBN.getCliente().getImg_color() == imagenBN.getCliente().getImgColorConstante() && imagenBN.getCliente()
-                    .getImg_bw() == imagenBN.getCliente().getImgBNConstante()){
+            if(imagenBN.getCliente().getImg_color() == imagenBN.getCliente().getImgColorConstante() &&
+                    imagenBN.getCliente().getImg_bw() == imagenBN.getCliente().getImgBNConstante()){
+                imagenBN.getCliente().setTieneTodasSusImgs(true);
                 System.out.println("El cliente "+imagenBN.getCliente().getNombre_cliente()+" recibio todas sus imagenes");
 
             }

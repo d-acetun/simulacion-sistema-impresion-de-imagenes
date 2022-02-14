@@ -55,21 +55,26 @@ public class ListaSimple {
 //        }
 //        return aux.getDato();
 //    }
-    public Object eliminarCliente(int idCliente){
-        this.size-=1;
+    public Object eliminarEspera(Cliente cliente){
+//        this.size-=1;
         Nodo aux = this.primero;
-        Cliente cliente1 = (Cliente) aux.getDato();
-        if (cliente1.getId_cliente() == idCliente){
+        ListaSimple listaClientesImgs = (ListaSimple) aux.getDato();
+        Cliente cliente1 = (Cliente) listaClientesImgs.primero.getDato();
+        if (cliente1 == cliente){
+//            System.out.println(cliente1.getNombre_cliente()+" ELIMINADO");
             elimiinarInicio();
             return aux.getDato();
         }
-        System.out.println("sigue");
+//        System.out.println("sigue");
         Nodo anterior = aux;
         while (aux != null){
-            Cliente cliente = (Cliente) aux.getDato();
-            if (cliente.getId_cliente() == idCliente){
+            listaClientesImgs = (ListaSimple) aux.getDato();
+            cliente1 = (Cliente) listaClientesImgs.getPrimero().getDato();
+            if (cliente1 == cliente){
+//                System.out.println(cliente1.getNombre_cliente()+" ELIMINADO");
                 anterior.setSiguiente(aux.getSiguiente());
-                break;
+                this.size-=1;
+                return aux.getDato();
             }
             anterior = aux;
             aux = aux.getSiguiente();
@@ -106,7 +111,6 @@ public class ListaSimple {
     public void elimiinarInicio(){
         this.primero = this.primero.getSiguiente();
         this.size-=1;
-
 
     }
 

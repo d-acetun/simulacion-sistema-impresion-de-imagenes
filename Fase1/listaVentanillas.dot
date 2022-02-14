@@ -2,7 +2,7 @@ digraph listaVentanillas {
 node[shape=box]
 edge[arrowhead=none]
 0 [label=Ventanilla1]
-1 [label="Arlin Limerick\nIMG C 1\nIMG BN 1"]
+1 [label="Rosalinde Bradnum\nIMG C 1\nIMG BN 1"]
 2 [label=Ventanilla2]
 1->0
 0->2
