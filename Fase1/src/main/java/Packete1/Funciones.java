@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -16,6 +17,51 @@ public class Funciones {
     private final ListaSimple colaBN = new ListaSimple();
     private final ListaSimple clientesEnEspera = new ListaSimple();
     private final ListaSimple clientesAtendidos = new ListaSimple();
+    private int contadorId = 0;
+    private final String[] nombres = {
+            "Ethelda",
+            "Joey",
+            "Rossie",
+            "Sashenka",
+            "Pippo",
+            "Brana",
+            "Archy",
+            "Jaimie",
+            "Shannen",
+            "Betta",
+            "Peggie",
+            "Candis",
+            "Shaina",
+            "Pennie",
+            "Annadiane",
+            "Townie",
+            "Dulciana",
+            "Lyn",
+            "Dmitri",
+            "Daffy"};
+    private final String[] apellidos = {
+            "Sapsforde" ,
+            "McSaul" ,
+            "Primo" ,
+            "Garnam" ,
+            "Goad" ,
+            "Colchett" ,
+            "Hirche" ,
+            "Camden" ,
+            "Cansdell" ,
+            "Webberley" ,
+            "Kings" ,
+            "Rivers" ,
+            "Bassingham" ,
+            "Furminger" ,
+            "Sebert" ,
+            "Yurukhin" ,
+            "Wagon" ,
+            "Stickney" ,
+            "Shearman" ,
+            "Holstein"
+    };
+//    private final
 //    private Cliente clienteEnEspera = null;
     private int numeroPaso = 0;
     //    private ListaSimple listaVentanillas = new ListaSimple();
@@ -78,6 +124,7 @@ public class Funciones {
             //Cliente1 que es otro json
             Map diccionarioClienteN = gson.fromJson(contenido, Map.class);
             Set<String> keys = diccionarioClienteN.keySet();
+            int id_cliente = 0;
             for (String key : keys) {
                 System.out.println(key);
                 //Covertimos el diccionario a string para poder generar
@@ -87,7 +134,7 @@ public class Funciones {
                 Map diccionarioValores = gson.fromJson(json, Map.class);
 //            System.out.println(diccionarioValores);
 //            Set<String> keysA = diccionarioValores.keySet();
-                int id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
+                id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
                 int img_bw = Integer.parseInt(diccionarioValores.get("img_bw").toString());
                 int img_color = Integer.parseInt(diccionarioValores.get("img_color").toString());
                 String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
@@ -103,9 +150,10 @@ public class Funciones {
 //            }
 //            System.out.println();
             }
+            this.contadorId = id_cliente;
 
             System.out.println("Clientes Cargados exitosamente");
-            verColaRecepcion();
+//            verColaRecepcion();
 
         } catch (Exception e) {
             System.out.println("Error al cargar clientes");
@@ -182,7 +230,7 @@ public class Funciones {
                 this.listaVentanillas.insertarFinal(nuevaVentanilla);
             }
             System.out.println("Ventanillas creadas exitosamente");
-            verListaVentanillas();
+//            verListaVentanillas();
 //            ejecutarPaso(listaVentanillas);
 //            menu(null, null);
 
@@ -210,6 +258,20 @@ public class Funciones {
             case "2":
                 ejecutarPaso();
                 break;
+            case "3":
+                verColaImpresoras();
+                verClientesAtendidos();
+                verListaVentanillas();
+                verColaRecepcion();
+                verClientesEnEspera();
+                menu();
+                break;
+            case "5":
+                System.out.println("-".repeat(10)+"Diego Alexander Acetun Chicol estudiante de Ingenieria en Sistemas"+"-".repeat(10));
+                System.out.println("-".repeat(10)+"Carnet: 201903909"+this.numeroPaso+"-".repeat(10));
+                menu();
+                break;
+
             case "6":
                 break;
             default:
@@ -424,6 +486,20 @@ public class Funciones {
         }
     }
     public void ejecutarPaso() {
+        //Generando nuevos clientes
+        Random random = new Random();
+        int numero = random.nextInt(4);
+        for(int i=0; i<numero; i++){
+            this.contadorId++;
+            int nNombre = random.nextInt(this.nombres.length) ;
+            int nApellido = random.nextInt(this.apellidos.length);
+            int imagenesColor = random.nextInt(5);
+            int imagenesBN = random.nextInt(5);
+            String nombre = this.nombres[nNombre]+" "+this.apellidos[nApellido];
+            Cliente nuevoCliente = new Cliente(contadorId, nombre, imagenesColor, imagenesBN, imagenesColor, imagenesBN);
+            this.colaRecepcion.insertarFinal(nuevoCliente);
+        }
+
         this.numeroPaso++;
         System.out.println("-".repeat(10)+"PASO "+this.numeroPaso+"-".repeat(10));
         Nodo aux3 = this.clientesEnEspera.getPrimero();
@@ -543,12 +619,12 @@ public class Funciones {
 //            verListaVentanillas(listaVentanillas);
         if (this.colaColor.getSize()>0 || this.colaBN.getSize()>0){
             pasoImpresora();
-            verClientesEnEspera();
-            verColaImpresoras();
+//            verClientesEnEspera();
+//            verColaImpresoras();
         }
-        verClientesAtendidos();
+//        verClientesAtendidos();
 //        espera();
-        verListaVentanillas();
+//        verListaVentanillas();
         menu();
     }
 
