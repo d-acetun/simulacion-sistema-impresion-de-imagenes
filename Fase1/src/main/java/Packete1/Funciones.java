@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-
 public class Funciones {
     private boolean colorDisponible = true;
     private boolean BNDisponible = true;
@@ -276,7 +275,7 @@ public class Funciones {
                 menu();
                 break;
             case "4":
-                Scanner opcionReporte = new Scanner(System.in);
+//                Scanner opcionReporte = new Scanner(System.in);
                 System.out.println("*****MENU REPORTES*****");
                 System.out.println("1. Top 5 de clientes con mayor cantidad de imágenes a color.");
                 System.out.println("2. Top 5 de clientes con menor cantidad de imágenes en blanco y negro.");
@@ -292,10 +291,19 @@ public class Funciones {
                         topClientesMenosImgBN();
                         break;
                     case "3":
-
+                        try {
+                            ListaSimple clienteConMasPasos = (ListaSimple) this.clientesAtendidos.clone();
+                            clienteConMasPasos.clienteConMasPasos();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         break;
                     case "4":
-
+//                        Scanner scanner = new Scanner(System.in);
+                        System.out.println("Ingresar id o nombre del cliente");
+                        String dato = entradaEscaner.nextLine();
+                        dato = dato.trim();
+                        this.clientesAtendidos.buscarCliente(dato);
                         break;
                     default:
                         System.out.println("Opcion invalida");
@@ -538,6 +546,21 @@ public class Funciones {
             this.colaRecepcion.insertarFinal(nuevoCliente);
         }
 
+        Nodo auxCola = this.colaRecepcion.getPrimero();
+        while (auxCola!=null){
+            Cliente cliente = (Cliente) auxCola.getDato();
+            cliente.setPasos(cliente.getPasos()+1);
+            auxCola = auxCola.getSiguiente();
+        }
+
+        Nodo auxClientesEspera = this.clientesEnEspera.getPrimero();
+        while (auxClientesEspera!=null){
+            ListaSimple listaCientesImg = (ListaSimple) auxClientesEspera.getDato();
+            Cliente cliente = (Cliente) listaCientesImg.getPrimero().getDato();
+            cliente.setPasos(cliente.getPasos()+1);
+            auxClientesEspera = auxClientesEspera.getSiguiente();
+        }
+
         this.numeroPaso++;
         System.out.println("-".repeat(10)+"PASO "+this.numeroPaso+"-".repeat(10));
         Nodo aux3 = this.clientesEnEspera.getPrimero();
@@ -595,6 +618,7 @@ public class Funciones {
                     continue;
                 }
                 Cliente cliente = (Cliente) ventanilla.getCliente();
+                cliente.setPasos(cliente.getPasos()+1);
                 ListaSimple pilaImagenes;
                 if (ventanilla.getListaImagenes() != null) {
                     pilaImagenes = ventanilla.getListaImagenes();
@@ -756,7 +780,7 @@ public class Funciones {
             imagenColor = (Imagen) colaColor.getPrimero().getDato();
             imagenColor.setPasos(1);
             imagenColor.getCliente().setImg_color(imagenColor.getCliente().getImg_color()+1);
-            imagenColor.getCliente().setPasos(imagenColor.getCliente().getPasos()+1);
+//            imagenColor.getCliente().setPasos(imagenColor.getCliente().getPasos()+1);
             System.out.println("Se imprimio una imagen a color del cliente " + imagenColor.getCliente().getNombre_cliente());
             Nodo aux = this.clientesEnEspera.getPrimero();
             //Se recorre la lsiat de clientes en espera para saber a quien corresponde la imagen
@@ -783,7 +807,7 @@ public class Funciones {
             }
             Nodo aux = this.clientesEnEspera.getPrimero();
             imagenBN.getCliente().setImg_bw( imagenBN.getCliente().getImg_bw()+1 );
-            imagenBN.getCliente().setPasos(imagenBN.getCliente().getPasos()+1);
+//            imagenBN.getCliente().setPasos(imagenBN.getCliente().getPasos()+1);
             System.out.println("Se imprimio una imagen BN del cliente "+imagenBN.getCliente().getNombre_cliente());
             //Se recorre la lsiat de clientes en espera para saber a quien corresponde la imagen
             while (aux!=null){

@@ -2,32 +2,33 @@ digraph listaVentanillas {
 node[shape=box]
 edge[arrowhead=none]
 0 [label=Ventanilla1]
-1 [label="Theda Donaho\nIMG C 1\nIMG BN 1"]
-2 [label=Ventanilla2]
-3 [label=Ventanilla3]
-4 [label="Arlin Limerick\nIMG C 1\nIMG BN 1"]
-5[label=BN]
-6[label=Color]
-7 [label=Ventanilla4]
-8 [label="Genni Clougher\nIMG C 1\nIMG BN 3"]
+1 [label="Theda Donaho\nIMG C 0\nIMG BN 4"]
+2[label=BN]
+3[label=BN]
+4[label=BN]
+5 [label=Ventanilla2]
+6 [label="Hewie Rizzini\nIMG C 1\nIMG BN 1"]
+7 [label=Ventanilla3]
+8 [label="Vinni Richardot\nIMG C 2\nIMG BN 1"]
 9[label=Color]
-10 [label=Ventanilla5]
-11 [label=Ventanilla6]
+10 [label=Ventanilla4]
+11 [label=Ventanilla5]
 1->0
 0->2
 2->3
-4->3
-3->5
-5->6
-3->7
+3->4
+0->5
+6->5
+5->7
 8->7
 7->9
 7->10
 10->11
 {rank=same; 1; 0}
-{rank=same; 4; 3}
-{rank=same; 3; 5}
-{rank=same; 5; 6}
+{rank=same; 0; 2}
+{rank=same; 2; 3}
+{rank=same; 3; 4}
+{rank=same; 6; 5}
 {rank=same; 8; 7}
 {rank=same; 7; 9}
 rankdir=TB

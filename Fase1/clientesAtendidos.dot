@@ -1,5 +1,6 @@
 digraph clientesAtendidos {
 node[shape=box]
 edge[arrowhead=none]
+0 [label="Craggie Jackalin\nIMG C 1\nIMG BN 2"]
 rankdir=LR
 }

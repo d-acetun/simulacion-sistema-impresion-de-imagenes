@@ -142,6 +142,65 @@ public class ListaSimple implements Cloneable {
         this.size = size;
     }
 
+    public void buscarCliente(String dato){
+        Nodo aux = this.primero;
+        boolean esNumero = dato.chars().allMatch( Character::isDigit );
+        if(esNumero){
+            int id = Integer.parseInt(dato);
+            while (aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                if(cliente.getId_cliente()==id){
+
+                    System.out.println(cliente.toString());
+                    return;
+                }
+                aux = aux.getSiguiente();
+            }
+        }else{
+            while (aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+//                System.out.println("."+cliente.getNombre_cliente()+"."+dato);
+                if(cliente.getNombre_cliente().equals(dato)){
+                    System.out.println(cliente.toString());
+                    return;
+                }
+                aux = aux.getSiguiente();
+            }
+
+        }
+
+        System.out.println("Cliente no encontrado");
+    }
+
+    public void clienteConMasPasos(){
+            Nodo aux = this.primero;
+            while (aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                Nodo aux2 = this.primero;
+                Nodo aux3 = this.primero.getSiguiente();
+                while (aux3!=null){
+                    Cliente cliente1 = (Cliente) aux2.getDato();
+                    cliente = (Cliente) aux3.getDato();
+                    if(cliente.getPasos()>cliente1.getPasos()){
+                        Cliente tmp = cliente;
+                        aux3.setDato(cliente1);
+                        aux2.setDato(tmp);
+                    }
+                    aux2 = aux2.getSiguiente();
+                    aux3 = aux3.getSiguiente();
+                }
+                aux = aux.getSiguiente();
+            }
+
+
+
+                Cliente cliente = (Cliente) this.primero.getDato();
+                System.out.println("El cliente que mas pasos estuvo en el sistema fue el siguiente");
+                System.out.println(cliente.toString());
+
+
+    }
+
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
     }

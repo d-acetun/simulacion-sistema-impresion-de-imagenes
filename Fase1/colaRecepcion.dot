@@ -1,16 +1,23 @@
 digraph ejemplo {
 node[shape=box]
 edge[arrowhead=none]
-0 [label="Rosalinde Bradnum\nIMG C 1\nIMG BN 1"]
-1 [label="Vinni Richardot\nIMG C 2\nIMG BN 1"]
-2 [label="Hewie Rizzini\nIMG C 1\nIMG BN 2"]
-3 [label="Casper Sambells\nIMG C 1\nIMG BN 1"]
-4 [label="Juan Ortiz\nIMG C 1\nIMG BN 1"]
-5 [label="Pablo Molina\nIMG C 1\nIMG BN 1"]
-6 [label="Brana Hirche\nIMG C 0\nIMG BN 0"]
-7 [label="Dmitri Webberley\nIMG C 1\nIMG BN 2"]
-8 [label="Brana Wagon\nIMG C 3\nIMG BN 2"]
-9 [label="Townie Garnam\nIMG C 1\nIMG BN 1"]
+0 [label="Casper Sambells\nIMG C 3\nIMG BN 3"]
+1 [label="Juan Ortiz\nIMG C 1\nIMG BN 2"]
+2 [label="Pablo Molina\nIMG C 0\nIMG BN 1"]
+3 [label="Ethelda Primo\nIMG C 2\nIMG BN 0"]
+4 [label="Sashenka Sapsforde\nIMG C 3\nIMG BN 3"]
+5 [label="Shannen Kings\nIMG C 4\nIMG BN 2"]
+6 [label="Joey Camden\nIMG C 4\nIMG BN 4"]
+7 [label="Sashenka Cansdell\nIMG C 3\nIMG BN 1"]
+8 [label="Brana Furminger\nIMG C 1\nIMG BN 4"]
+9 [label="Ethelda Yurukhin\nIMG C 3\nIMG BN 1"]
+10 [label="Archy Kings\nIMG C 2\nIMG BN 3"]
+11 [label="Shannen Garnam\nIMG C 1\nIMG BN 4"]
+12 [label="Sashenka Stickney\nIMG C 0\nIMG BN 4"]
+13 [label="Daffy Goad\nIMG C 3\nIMG BN 3"]
+14 [label="Daffy Webberley\nIMG C 1\nIMG BN 0"]
+15 [label="Shannen Kings\nIMG C 3\nIMG BN 4"]
+16 [label="Joey Primo\nIMG C 3\nIMG BN 1"]
 0->1
 1->2
 2->3
@@ -20,5 +27,12 @@ edge[arrowhead=none]
 6->7
 7->8
 8->9
+9->10
+10->11
+11->12
+12->13
+13->14
+14->15
+15->16
 rankdir=LR
 }

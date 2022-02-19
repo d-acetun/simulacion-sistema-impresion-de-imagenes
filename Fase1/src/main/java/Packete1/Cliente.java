@@ -84,6 +84,16 @@ public class Cliente {
         this.tieneTodasSusImgs = tieneTodasSusImgs;
     }
 
+    @Override
+    public String toString() {
+        return
+                "id_cliente " + id_cliente +
+                "\nnombre_cliente '" + nombre_cliente + '\'' +
+                "\nimg_color " + imgColorConstante +
+                "\nimg_BN " + imgBNConstante +
+                "\npasos en el sistema " + pasos;
+    }
+
     public String mostrarDatos(){
         return String.format("id: %d nombre: %s imgColor: %d imgBw:%d", this.id_cliente, this.nombre_cliente,
                 this.img_color, this.img_bw);
