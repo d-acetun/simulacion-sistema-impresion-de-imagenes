@@ -133,10 +133,19 @@ public class Funciones {
                 //Creamos el diccionario con los atributos de los clientes
                 Map diccionarioValores = gson.fromJson(json, Map.class);
 //            System.out.println(diccionarioValores);
+//                System.out.println(diccionarioValores.get("id_cliente").getClass().getSimpleName());
+
 //            Set<String> keysA = diccionarioValores.keySet();
-                id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
-                int img_bw = Integer.parseInt(diccionarioValores.get("img_bw").toString());
-                int img_color = Integer.parseInt(diccionarioValores.get("img_color").toString());
+//                id_cliente = Integer.parseInt(diccionarioValores.get("id_cliente").toString());
+//                int img_bw = Integer.parseInt(diccionarioValores.get("img_bw").toString());
+//                int img_color = Integer.parseInt(diccionarioValores.get("img_color").toString());
+                double id = (double) diccionarioValores.get("id_cliente");
+                double color = (double) diccionarioValores.get("img_color");
+                double bw = (double) diccionarioValores.get("img_bw");
+
+                id_cliente = (int) id;
+                int img_bw = (int) bw;
+                int img_color = (int) color;
                 String nombre_cliente = diccionarioValores.get("nombre_cliente").toString();
 
                 Cliente nuevoCliente = new Cliente(id_cliente, nombre_cliente, img_color, img_bw, img_color, img_bw);
@@ -157,7 +166,7 @@ public class Funciones {
 
         } catch (Exception e) {
             System.out.println("Error al cargar clientes");
-//            e.printStackTrace();
+            e.printStackTrace();
 
         }
         return colaRecepcion;
@@ -280,7 +289,7 @@ public class Funciones {
                         topClientesImgColor();
                         break;
                     case "2":
-
+                        topClientesMenosImgBN();
                         break;
                     case "3":
 
@@ -912,27 +921,67 @@ public class Funciones {
             topImgColor = (ListaSimple) this.colaRecepcion.clone();
             Nodo aux = topImgColor.getPrimero();
             while (aux!=null){
-                Nodo aux2 = topImgColor.getPrimero().getSiguiente();
-                Nodo aux3 = topImgColor.getPrimero();
-                Cliente cliente = (Cliente) aux3.getDato();
-                while (aux2!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                Nodo aux2 = topImgColor.getPrimero();
+                Nodo aux3 = topImgColor.getPrimero().getSiguiente();
+                while (aux3!=null){
                     Cliente cliente1 = (Cliente) aux2.getDato();
-                    if(cliente1.getImgColorConstante()>cliente.getImgColorConstante()){
-                        Object tmp = aux3.getDato();
-                        aux3.setDato(aux2.getDato());
+                    cliente = (Cliente) aux3.getDato();
+                    if(cliente.getImgColorConstante()>cliente1.getImgColorConstante()){
+                        Cliente tmp = cliente;
+                        aux3.setDato(cliente1);
                         aux2.setDato(tmp);
-
                     }
                     aux2 = aux2.getSiguiente();
                     aux3 = aux3.getSiguiente();
                 }
                 aux = aux.getSiguiente();
             }
+            System.out.println("-".repeat(10)+"TOP 5 CLIENTES CON MAS IMAGENES A COLOR"+"-".repeat(10));
+            int i = 0;
             aux = topImgColor.getPrimero();
+            while (i<=4 && aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                System.out.println(cliente.getNombre_cliente()+" "+cliente.getImgColorConstante()+" imagenes a color");
+                aux = aux.getSiguiente();
+                i++;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
+    public void topClientesMenosImgBN(){
+        ListaSimple topBN = new ListaSimple();
+        try {
+            topBN = (ListaSimple) this.colaRecepcion.clone();
+            Nodo aux = topBN.getPrimero();
             while (aux!=null){
                 Cliente cliente = (Cliente) aux.getDato();
-                System.out.println(cliente.getImgColorConstante());
+                Nodo aux2 = topBN.getPrimero();
+                Nodo aux3 = topBN.getPrimero().getSiguiente();
+                while (aux3!=null){
+                    Cliente cliente1 = (Cliente) aux2.getDato();
+                    cliente = (Cliente) aux3.getDato();
+                    if(cliente.getImgBNConstante()<cliente1.getImgBNConstante()){
+                        Cliente tmp = cliente;
+                        aux3.setDato(cliente1);
+                        aux2.setDato(tmp);
+                    }
+                    aux2 = aux2.getSiguiente();
+                    aux3 = aux3.getSiguiente();
+                }
                 aux = aux.getSiguiente();
+            }
+            System.out.println("-".repeat(10)+"TOP 5 CLIENTES CON MENOS IMAGENES BN"+"-".repeat(10));
+            int i = 0;
+            aux = topBN.getPrimero();
+            while (i<=40 && aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                System.out.println(cliente.getNombre_cliente()+" "+cliente.getImgBNConstante()+" imagenes BN");
+                aux = aux.getSiguiente();
+                i++;
             }
         }catch (Exception e){
             e.printStackTrace();
