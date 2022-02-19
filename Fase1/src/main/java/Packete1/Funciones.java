@@ -266,6 +266,34 @@ public class Funciones {
                 verClientesEnEspera();
                 menu();
                 break;
+            case "4":
+                Scanner opcionReporte = new Scanner(System.in);
+                System.out.println("*****MENU REPORTES*****");
+                System.out.println("1. Top 5 de clientes con mayor cantidad de imágenes a color.");
+                System.out.println("2. Top 5 de clientes con menor cantidad de imágenes en blanco y negro.");
+                System.out.println("3. Información del cliente que más pasos estuvo en el sistema.");
+                System.out.println("4. Datos de un cliente en específico");
+                System.out.print("Seleccionar Opcion:  ");
+                String opcionElegida = entradaEscaner.nextLine();
+                switch (opcionElegida){
+                    case "1":
+                        topClientesImgColor();
+                        break;
+                    case "2":
+
+                        break;
+                    case "3":
+
+                        break;
+                    case "4":
+
+                        break;
+                    default:
+                        System.out.println("Opcion invalida");
+                        break;
+                }
+                menu();
+                break;
             case "5":
                 System.out.println("-".repeat(10)+"Diego Alexander Acetun Chicol estudiante de Ingenieria en Sistemas"+"-".repeat(10));
                 System.out.println("-".repeat(10)+"Carnet: 201903909"+this.numeroPaso+"-".repeat(10));
@@ -276,6 +304,7 @@ public class Funciones {
                 break;
             default:
                 System.out.println("Opcion no disponible");
+                menu();
                 break;
 
         }
@@ -876,6 +905,40 @@ public class Funciones {
     }
 
 }
+
+    public void topClientesImgColor(){
+        ListaSimple topImgColor = new ListaSimple();
+        try {
+            topImgColor = (ListaSimple) this.colaRecepcion.clone();
+            Nodo aux = topImgColor.getPrimero();
+            while (aux!=null){
+                Nodo aux2 = topImgColor.getPrimero().getSiguiente();
+                Nodo aux3 = topImgColor.getPrimero();
+                Cliente cliente = (Cliente) aux3.getDato();
+                while (aux2!=null){
+                    Cliente cliente1 = (Cliente) aux2.getDato();
+                    if(cliente1.getImgColorConstante()>cliente.getImgColorConstante()){
+                        Object tmp = aux3.getDato();
+                        aux3.setDato(aux2.getDato());
+                        aux2.setDato(tmp);
+
+                    }
+                    aux2 = aux2.getSiguiente();
+                    aux3 = aux3.getSiguiente();
+                }
+                aux = aux.getSiguiente();
+            }
+            aux = topImgColor.getPrimero();
+            while (aux!=null){
+                Cliente cliente = (Cliente) aux.getDato();
+                System.out.println(cliente.getImgColorConstante());
+                aux = aux.getSiguiente();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
 
     public void listas() {
         ListaSimple lista = new ListaSimple();

@@ -1,6 +1,6 @@
 package Packete1;
 
-public class ListaSimple {
+public class ListaSimple implements Cloneable {
     private Nodo primero;
     private Nodo ultimo;
     private int size;
@@ -140,6 +140,10 @@ public class ListaSimple {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
     }
 
 

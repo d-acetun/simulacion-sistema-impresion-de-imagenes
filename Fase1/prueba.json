@@ -8,7 +8,7 @@
       "Cliente2":{
         "id_cliente": "2",
         "nombre_cliente": "Penn Blaszczynski",
-        "img_color": "1",
+        "img_color": "6",
         "img_bw": "1"
       }, 
       "Cliente3":{
@@ -50,19 +50,19 @@
       "Cliente9":{
         "id_cliente": "9",
         "nombre_cliente": "Casper Sambells",
-        "img_color": "1",
+        "img_color": "7",
         "img_bw": "1"
       },
       "Cliente10":{
         "id_cliente": "10",
         "nombre_cliente": "Juan Ortiz",
-        "img_color": "1",
+        "img_color": "10",
         "img_bw": "1"
       },
       "Cliente11":{
         "id_cliente": "11",
         "nombre_cliente": "Pablo Molina",
-        "img_color": "1",
+        "img_color": "8",
         "img_bw": "1"
       }
 }

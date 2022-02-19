@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         Funciones inicio = new Funciones();
+//        clonar();
 //        oo();
 //        inicio.leerArchivo();
         inicio.menu();
@@ -14,7 +15,27 @@ public class Main {
 
 //        prueba();
     }
+    public static void clonar(){
+        ListaSimple listaSimple = new ListaSimple();
+        listaSimple.insertarFinal(10);
+        listaSimple.insertarFinal(11);
+        listaSimple.insertarFinal(12);
+        listaSimple.recorrer();
+        System.out.println();
+        ListaSimple s = new ListaSimple();
+        try {
+            s = (ListaSimple) listaSimple.clone();
+        }catch (Exception e){
 
+        }
+        s.elimiinarInicio();
+        s.recorrer();
+        System.out.println();
+        listaSimple.recorrer();
+
+
+
+    }
     public static void prueba() {
         ListaSimple l1 = new ListaSimple();
         ListaSimple l2 = new ListaSimple();
@@ -49,7 +70,7 @@ public class Main {
         }
     }
 
-    public static void oo() {
+    public static void nombres() {
         String[] nombres = {
                 "Ethelda",
                 "Joey",
