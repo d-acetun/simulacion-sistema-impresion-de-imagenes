@@ -313,7 +313,7 @@ public class Funciones {
                 break;
             case "5":
                 System.out.println("-".repeat(10)+"Diego Alexander Acetun Chicol estudiante de Ingenieria en Sistemas"+"-".repeat(10));
-                System.out.println("-".repeat(10)+"Carnet: 201903909"+this.numeroPaso+"-".repeat(10));
+                System.out.println("-".repeat(10)+"Carnet: 201903909"+"-".repeat(10));
                 menu();
                 break;
 
@@ -1001,7 +1001,7 @@ public class Funciones {
             System.out.println("-".repeat(10)+"TOP 5 CLIENTES CON MENOS IMAGENES BN"+"-".repeat(10));
             int i = 0;
             aux = topBN.getPrimero();
-            while (i<=40 && aux!=null){
+            while (i<=4 && aux!=null){
                 Cliente cliente = (Cliente) aux.getDato();
                 System.out.println(cliente.getNombre_cliente()+" "+cliente.getImgBNConstante()+" imagenes BN");
                 aux = aux.getSiguiente();
