@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6755a1b-267e-4450-a249-cfaae8e5c9ed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Cliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Cliente.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Funciones.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Funciones.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Imagen.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Imagen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/ListaSimple.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/ListaSimple.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Nodo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Nodo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Ventanilla.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Fase1/target/classes/Packete1/Ventanilla.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/TableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/VentanaAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/VentanaAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/TableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/TableModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
