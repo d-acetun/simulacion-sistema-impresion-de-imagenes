@@ -5,18 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6755a1b-267e-4450-a249-cfaae8e5c9ed" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/TableModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Packete1/VentanaAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Packete1/VentanaAdmin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Packete1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/TableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/TableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Packete1/VentanaAdmin.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -34,6 +39,9 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager">

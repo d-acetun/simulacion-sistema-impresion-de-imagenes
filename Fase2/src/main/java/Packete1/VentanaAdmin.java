@@ -63,7 +63,6 @@ public class VentanaAdmin extends JFrame implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        System.out.println(this.jTextField.getText()+" funciona");
         TableModel modelo = new TableModel();
         this.table.setModel(modelo.buscar(this.jTextField.getText()));
 
